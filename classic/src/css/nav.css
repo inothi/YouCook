@@ -26,10 +26,31 @@ nav {
     color: #fff !important;
     text-shadow: 2px 4px 8px #000;
     border: none;
+    animation: none;
 
     &:hover {
         transform: translateY(0);
         border: none;
+    }
+}
+
+.blinking-link {
+    margin-left: 50px;
+    animation: blink-link 1s steps(10, start) infinite;
+
+    &:hover {
+        animation: none;
+    }
+}
+@keyframes blink-link {
+    0% {
+        color: #999;
+    }
+    50% {
+        color: var(--color-green-light);
+    }
+    100% {
+        color: #999;
     }
 }
 
