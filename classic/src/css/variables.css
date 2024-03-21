@@ -1,0 +1,21 @@
+:root {
+    /* COLOURS */
+    /* Basic color for main theme */
+    --color-blue-light-light: #7887AB;
+    --color-blue-light: #4F628E;
+    --color-blue: #2E4172;
+    --color-blue-dark: #162955;
+    --color-blue-dark-dark: #061539;
+    /* Additional color with positive shades */
+    --color-green-light-light: #E8F6A4;
+    --color-green-light: #BBCD67;
+    --color-green: #91A437;
+    --color-green-dark: #697B15;
+    --color-green-dark-dark: #445200;
+    /* Additional color with contrast shades */
+    --color-red-light-light: #E498AF;
+    --color-red-light: #BE5F7C;
+    --color-red: #983352;
+    --color-red-dark: #721330;
+    --color-red-dark-dark: #4C0017;
+}

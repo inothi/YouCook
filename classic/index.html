@@ -22,9 +22,44 @@
     </script>
     <link rel="stylesheet" href="../classic/src/css/main.css" type="text/css" />
     <link rel="stylesheet" href="../classic/src/css/nav.css" type="text/css" />
-    <title>YouCook.eu - version classic</title>
+    <title>YouCook :: classic</title>
   </head>
   <body>
 
-  </body>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-custom-dark justify-content-end">
+            <button class="navbar-toggler toggler-custom-dark collapsed justify-content-end" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav text-center">
+                    <li class="nav-item">
+                        <a class="nav-link active-link" onclick="activeLink(this)" href="#">Start</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" onclick="activeLink(this)" href="#test" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Księga przepisów</a>
+                        <div class="dropdown-menu text-center menu-custom-dark" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item item-custom-dark" href="#">Wszystkie przepisy</a>
+                            <a class="dropdown-item item-custom-dark" href="#">Polecane na dzisiaj</a>
+                            <a class="dropdown-item item-custom-dark" href="#">Najpopularniejsze</a>
+                            <a class="dropdown-item item-custom-dark" href="#">Najwyżej oceniane</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="activeLink(this)" href="#">Moje przepisy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="activeLink(this)" href="#">Lista zakupów</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link blink" onclick="activeLink(this)" href="#">Co mogę ugotować?</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <script src="./src/js/script.js"></script>
+    <script src="./src/js/nav.js"></script>
+</body>
 </html>
