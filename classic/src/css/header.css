@@ -1,0 +1,40 @@
+@import url("../css/variables.css");
+
+header {
+    background-color: var(--color-blue);
+}
+
+.headlining {
+    position: relative;
+    height: 30px;
+    background-color: var(--color-blue-dark-dark);
+    box-shadow: 0px 4px 8px var(--color-red-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.category-path {
+    max-width: 1400px;
+
+    a {
+        text-decoration: none;
+        color: #666;
+        margin: 0 0 0 10px;
+    }
+
+    span {
+
+        a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        &::before {
+            content: '\00bb';
+            font-size: 18px;
+            color: #999;
+            margin: 0 15px;
+        }
+    }
+}

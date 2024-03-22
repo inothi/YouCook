@@ -1,11 +1,16 @@
 @import url("../css/variables.css");
 
 nav {
-    max-width: 1920px;
+    max-width: 1400px;
+    box-shadow: -1px 0px 8px var(--color-red-light), 1px 0px 8px var(--color-red-light);
+}
+
+.navbar {
+    margin: 0 auto;
 }
 
 .bg-custom-dark {
-    background-color: var(--color-blue-dark-dark);
+    background-color: var(--color-blue-dark);
 }
 
 .nav-link {
@@ -71,8 +76,8 @@ nav {
     height: 40px;
     transition: all .25s ease-in-out;
 
-    > span, 
-    > span::before, 
+    span, 
+    span::before, 
     span::after {
         transition: all .25s ease-in-out;
         display: block;
@@ -84,14 +89,14 @@ nav {
         transform: rotate(45deg);
     }
 
-    > span::before {
+    span::before {
         transform: rotate(360deg);
         content: '';
         top: 0px;
         opacity: 1;
     }
 
-    > span::after {
+    span::after {
         transform: rotate(270deg);
         content: '';
         top: 0px;
@@ -106,7 +111,7 @@ nav {
 }
 
 .collapsed {
-    > span, 
+    span, 
     span::before, 
     span::after {
         transition: all .25s ease-in-out;
@@ -120,13 +125,13 @@ nav {
         opacity: 1;
     }
 
-    > span::before {
+    span::before {
         transform: rotate(0deg);
         content: '';
         top: -7px;
     }
 
-    > span::after {
+    span::after {
         transform: rotate(0deg);
         content: '';
         top: 7px;
@@ -167,5 +172,9 @@ nav {
 @media screen and (max-width: 991px) {
     .menu-custom-dark {
         box-shadow: none;
+    }
+
+    .blinking-link {
+        margin-left: 0;
     }
 }
