@@ -1,58 +1,102 @@
-// footer scripts
-(function displayMode() {
-    let theme = document.getElementById("light-dark");
-    let header = document.querySelector("header");
-    let main = document.querySelector("main");
-    let navbar = document.getElementById("navbar");
-    let nav = document.querySelector("nav");
-    let headlining = document.getElementsByClassName("headlining")[0];
-    let categoryPath = document.getElementsByClassName("category-path")[0].children[0];
+let inputChecked = document.getElementById("light-dark");
+
+function changeIconMode() {
+    let btn = document.getElementById("switch-btn");
+    if (inputChecked.checked) {
+        btn.innerHTML = "<i class='fa-solid fa-moon fa-xl'></i>";
+    } 
+    else btn.innerHTML = "<i class='fa-solid fa-sun fa-xl'></i>";
+    changeNavLinksClass();
+};
+
+function changeFooterMode() {
     let footer = document.querySelector("footer");
-    theme.addEventListener("click", function() {
-        if (document.body.style.backgroundColor == "var(--color-blue)") {
-            // body styles
-            document.body.style.transition = "all .25s ease";
-            document.body.style.backgroundColor = "#eee";
-            // header styles
-            header.style.transition = "all .25s ease";
-            header.style.backgroundColor = "#eee";
-            nav.style.boxShadow = "-1px 0px 8px #000, 1px 0px 8px #000";
-            // main styles
-            main.style.transition = "all .25s ease";
-            main.style.backgroundColor = "#bbb";
-            main.style.boxShadow = "-1px 0px 8px #000, 1px 0px 8px #000";
-            // navbar styles
-            navbar.style.transition = "all .25s ease";
-            navbar.style.backgroundColor = "#bbb";
-            // headlining styles
-            headlining.style.transition = "all .25s ease";
-            headlining.style.backgroundColor = "var(--color-red-dark)";
-            headlining.style.boxShadow = "0px 4px 8px #000";
-            categoryPath.style.transition = "all .25s ease";
-            categoryPath.style.color = "#999";
-            // footer styles
-            footer.style.transition = "all .25s ease";
-            footer.style.backgroundColor = "var(--color-red-dark)";
-            footer.style.boxShadow = "0px -4px 8px #000";
+    if (inputChecked.checked) {
+        const footerStyles = {
+            backgroundColor: "var(--color-red-dark-dark)",
+            boxShadow: "0 -4px 4px #000"
         }
-        else {
-            // body styles
-            document.body.style.backgroundColor = "var(--color-blue)";
-            // header styles
-            header.style.backgroundColor = "var(--color-blue)";
-            nav.style.boxShadow = "-1px 0px 8px var(--color-red-light), 1px 0px 8px var(--color-red-light)";
-            // main styles
-            main.style.backgroundColor = "var(--color-blue-dark)";
-            main.style.boxShadow = "-1px 0px 8px var(--color-red-light), 1px 0px 8px var(--color-red-light)";
-            //navbar styles
-            navbar.style.backgroundColor = "var(--color-blue-dark)";
-            // headlining styles
-            headlining.style.backgroundColor = "var(--color-blue-dark-dark)";
-            headlining.style.boxShadow = "0px 4px 8px var(--color-red-light)";
-            categoryPath.style.color = "#666";
-            // footer styles
-            footer.style.backgroundColor = "var(--color-blue-dark-dark)";
-            footer.style.boxShadow = "0px -4px 8px var(--color-red-light)";
+        Object.assign(footer.style, footerStyles);
+    }
+    else {
+        const footerStyles2 = {
+            backgroundColor: "var(--color-blue-dark-dark)",
+            boxShadow: "0 -4px 8px var(--color-red-light)"
         }
-    });
-}());
+        Object.assign(footer.style, footerStyles2);
+    }
+}
+
+function changeLayoutMode() {
+    let header = document.querySelector("header");
+    let body = document.querySelector("body");
+    if (inputChecked.checked) {
+        header.style.backgroundColor = "#eee";
+        body.style.backgroundColor = "#eee";
+    }
+    else {
+        header.style.backgroundColor = "var(--color-blue)";
+        body.style.backgroundColor = "var(--color-blue)";
+    }
+}
+
+function changeCategoryPathMode() {
+    let categoryPath = document.getElementsByClassName("headlining")[0];
+    if (inputChecked.checked) {
+        categoryPath.style.backgroundColor = "var(--color-red-dark-dark)";
+        categoryPath.style.boxShadow = "0 4px 4px #000";
+    }
+    else {
+        categoryPath.style.backgroundColor = "var(--color-blue-dark-dark)";
+        categoryPath.style.boxShadow = "0 4px 8px var(--color-red-light)";
+    }
+}
+
+function changeMainMode() {
+    let main = document.querySelector("main");
+    if (inputChecked.checked) {
+        main.style.backgroundColor = "#aaa";
+    }
+    else {
+        main.style.backgroundColor = "var(--color-blue-dark)";
+    }
+}
+
+function changeNavMode() {
+    let navigation = document.getElementsByClassName("bg-custom")[0];
+    let navbar = document.getElementById("navbar");
+    if (inputChecked.checked) {
+        navigation.style.backgroundColor = "#aaa";
+        navbar.style.boxShadow = "-1px 0 8px #000, 1px 0 8px #000";
+    }
+    else {
+        navigation.style.backgroundColor = "var(--color-blue-dark)";
+        navbar.style.boxShadow = "-1px 0px 8px var(--color-red-light), 0px 0px 8px var(--color-red-light)";
+    }
+}
+
+function changeCarouselImages() {
+    let carousel = document.getElementsByClassName("carousel-item");
+    if (inputChecked.checked) {
+        for (let i = 0; i < carousel.length; i++) {
+            carousel[i].children[0].src = "../classic/src/assets/img/carouselImg0" + [i + 4] + ".jpg";
+        }
+    }
+    else {
+        for (let i = 0; i < carousel.length; i++) {
+            carousel[i].children[0].src = "../classic/src/assets/img/carouselImg0" + [i + 1] + ".jpg";
+        }
+    }
+}
+
+function changeDisplayMode() {
+    changeLayoutMode();
+    changeNavMode();
+    blinkingLink();
+    changeDropdownMenuMode();
+    changeCategoryPathMode();
+    changeMainMode();
+    changeCarouselImages();
+    changeIconMode();
+    changeFooterMode();
+};

@@ -1,11 +1,16 @@
 @import url("../css/variables.css");
 
 footer {
+    transition: all .25s ease;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
     background-color: var(--color-blue-dark-dark);
     box-shadow: 0px -4px 8px var(--color-red-light);
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 5;
 }
 
 .footer-box {
@@ -18,7 +23,7 @@ footer {
     display: flex;
     align-items: center;
     margin: 15px 0;
-    color: #fff;
+    color: #999;
 
     ul {
         margin-top: 5px;
@@ -28,22 +33,6 @@ footer {
         li {
             list-style-type: none;
             display: inline;
-            
-            a {
-                text-decoration: none;
-
-                :hover {
-                    transition: all .25s ease;
-                    text-decoration: none;
-                    color: #fff;
-                    text-shadow: 2px 4px 8px #000;
-                }
-
-                i {
-                    transition: all .25s ease;
-                    color: #999;
-                }
-            }
         }
     }
 }
@@ -57,32 +46,36 @@ label {
 }
 
 .switch-btn {
-    width: 39px;
-    height: 38px;
-    border: 2px solid #999;
-    background-color: var(--color-blue-light);
-    border-radius: 15px;
+    width: 30px;
+    height: 29px;
+    background-color: #999;
+    border-radius: 5px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all .25s ease;
 
-    & i {
-        transition: all .25s ease;
-        color: #999;
+    &:hover {
+        background-color: #fff;
     }
+}
+
+.fa-brands {
+    transition: all .25s ease;
+    color: #999;
 
     &:hover {
-        transition: all .25s ease;
-        border-color: #fff;
-        background-color: var(--color-blue-light-light);
-
-        & i {
-            transition: all .25s ease;
-            color: #fff;
-        }
+        color: #fff;
     }
+}
+
+.fa-sun{
+    color: var(--color-blue-dark-dark);
+}
+
+.fa-moon {
+    color: var(--color-red-dark-dark);
 }
 
 .copyrights {

@@ -11,14 +11,240 @@ html, body, div {
     box-sizing: border-box;
 }
 
-body {
-    transition: all 2s ease;
+html {
+    scrollbar-width: none;
+}
+
+.firstPageImages {
+    max-height: 35vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+
+    img {
+        position: relative;
+    }
+}
+
+.frosted-glass-left,
+.frosted-glass-right {
+    position: absolute;
+    top: 87px;
+    width: calc((100% - 1400px) / 2);
+    min-height: 35vh;
+    background-color: transparent;
+    backdrop-filter: blur(10px);
+    filter:brightness(50%);
+}
+
+.frosted-glass-left {
+    left: 0;
+}
+
+.frosted-glass-right {
+    right: 0;
+}
+
+.main-carousel-border {
+    position: absolute;
+    top: 87px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    max-width: 1400px;
+    min-height: 35vh;
+    background-color: transparent;
+    box-shadow: 6px 0 4px -4px var(--color-red-light), -6px 0 4px -4px var(--color-red-light);
+    z-index: 5;
+}
+
+.main-border {
+    max-width: 1400px;
+    min-height: 400px;
+    box-shadow: 6px 0 4px -4px var(--color-red-light), -6px 0 4px -4px var(--color-red-light);
 }
 
 main {
     margin: 0 auto;
+    transition: all .25s ease;
     background-color: var(--color-blue-dark);
-    max-width: 1400px;
-    box-shadow: -1px 0px 8px var(--color-red-light), 1px 0px 8px var(--color-red-light);
-    height: 70vh;
+    max-width: 1400px; 
+}
+
+/* MediaQuery */
+@media screen and (max-width: 767px) {
+    .main-carousel-border {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .firstPageImages {
+        min-height: 30vh;
+        
+        img {
+            animation: move-up 5s infinite;
+        }
+    }
+
+    @keyframes move-up {
+        0% {
+            transform: scale(1.2);
+        }
+        95% {
+            transform: scale(1);
+        }
+        100% {
+            transform: scale(1.2);
+        }
+    }
+
+    .main-carousel-border {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .firstPageImages {
+        min-height: 30vh;
+        
+        img {
+            animation: move-up 5s infinite;
+        }
+    }
+
+    @keyframes move-up {
+        0% {
+            transform: scale(1.2);
+            top: 0;
+        }
+        95% {
+            transform: scale(1);
+            top: -25px;
+        }
+        100% {
+            transform: scale(1.2);
+            top: 0;
+        }
+    }
+
+    .main-carousel-border {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .firstPageImages {
+        min-height: 30vh;
+        
+        img {
+            animation: move-up 5s infinite;
+        }
+    }
+
+    @keyframes move-up {
+        0% {
+            transform: scale(1.2);
+            top: -150px;
+        }
+        95% {
+            transform: scale(1);
+            top: -200px;
+        }
+        100% {
+            transform: scale(1.2);
+            top: -150px;
+        }
+    }
+
+    .main-carousel-border {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    .firstPageImages {
+        min-height: 30vh;
+        
+        img {
+            animation: move-up 5s infinite;
+        }
+    }
+
+    @keyframes move-up {
+        0% {
+            transform: scale(1.2);
+            top: -200px;
+        }
+        95% {
+            transform: scale(1);
+            top: -300px;
+        }
+        100% {
+            transform: scale(1.2);
+            top: -200px;
+        }
+    }
+
+    .main-carousel-border {
+        display: flex;
+    }
+}
+
+@media screen and (min-width: 1920px) {
+    .firstPageImages {
+        min-height: 30vh;
+        
+        img {
+            animation: move-up 5s infinite;
+        }
+    }
+
+    @keyframes move-up {
+        0% {
+            transform: scale(1.2);
+            top: -600px;
+        }
+        95% {
+            transform: scale(1);
+            top: -500px;
+        }
+        100% {
+            transform: scale(1.2);
+            top: -600px;
+        }
+    }
+
+    .main-carousel-border {
+        display: flex;
+    }
+}
+
+@media screen and (min-width: 2560px) {
+    .firstPageImages {
+        min-height: 30vh;
+        
+        img {
+            animation: move-up 5s infinite;
+        }
+    }
+
+    @keyframes move-up {
+        0% {
+            transform: scale(1.2);
+            top: -800px;
+        }
+        95% {
+            transform: scale(1);
+            top: -900px;
+        }
+        100% {
+            transform: scale(1.2);
+            top: -600px;
+        }
+    }
+
+    .main-carousel-border {
+        display: flex;
+    }
 }
