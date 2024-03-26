@@ -54,11 +54,17 @@ function changeCategoryPathMode() {
 
 function changeMainMode() {
     let main = document.querySelector("main");
+    let borderMain = document.getElementsByClassName("main-border")[0];
+    let borderCarousel = document.getElementsByClassName("main-carousel-border")[0];
     if (inputChecked.checked) {
         main.style.backgroundColor = "#aaa";
+        borderMain.style.boxShadow = "6px 0 4px -4px #000, -6px 0 4px -4px #000";
+        borderCarousel.style.boxShadow = "6px 0 25px -4px #000, -6px 0 25px -4px #000";
     }
     else {
         main.style.backgroundColor = "var(--color-blue-dark)";
+        borderMain.style.boxShadow = "6px 0 4px -4px var(--color-red-light), -6px 0 4px -4px var(--color-red-light)";
+        borderCarousel.style.boxShadow = "6px 0 25px -4px var(--color-red-light), -6px 0 25px -4px var(--color-red-light)";
     }
 }
 
