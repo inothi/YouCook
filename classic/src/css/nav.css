@@ -86,13 +86,13 @@ nav {
 
 @keyframes blink-link-light {
     0% {
-        color: #999;
+        color: #555;
     }
     50% {
-        color: var(--color-red);
+        color: var(--color-red-light);
     }
     100% {
-        color: #999;
+        color: #555;
     }
 }
 
@@ -236,7 +236,8 @@ nav {
         box-shadow: none;
     }
 
-    .blinking-link {
+    .blinking-link-light,
+    .blinking-link-dark {
         margin-left: 0;
     }
 }

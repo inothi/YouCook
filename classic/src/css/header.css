@@ -14,7 +14,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 7;
+    z-index: 11;
 }
 
 .category-path {

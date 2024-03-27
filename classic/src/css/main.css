@@ -68,19 +68,25 @@ html {
     top: -10px;
     background-color: var(--color-red-light);
     box-shadow: 0 4px 8px var(--color-red-light);
-    z-index: 1;
+    z-index: 0;
 }
 
 .carousel-control-prev,
 .carousel-control-next {
-    z-index: 9;
+    z-index: 11;
 }
 
 .main-border {
     transition: all .25s ease;
     max-width: 1400px;
-    min-height: 400px;
     box-shadow: 6px 0 4px -4px var(--color-red-light), -6px 0 4px -4px var(--color-red-light);
+}
+
+.img-custom {
+    img {
+        width: 100%;
+    }
+    overflow: hidden;
 }
 
 main {
@@ -88,6 +94,12 @@ main {
     transition: all .25s ease;
     background-color: var(--color-blue-dark);
     max-width: 1400px;
+}
+
+.pad-tb {
+    padding-top: 50px;
+    padding-bottom: 125px;
+    gap: 5px;
 }
 
 /* MediaQuery */
