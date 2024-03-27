@@ -77,7 +77,7 @@ function changeNavMode() {
     }
     else {
         navigation.style.backgroundColor = "var(--color-blue-dark)";
-        navbar.style.boxShadow = "-1px 0px 8px var(--color-red-light), 0px 0px 8px var(--color-red-light)";
+        navbar.style.boxShadow = "6px 0 4px -4px var(--color-red-light), -6px 0 4px -4px var(--color-red-light)";
     }
 }
 
@@ -95,6 +95,23 @@ function changeCarouselImages() {
     }
 }
 
+function changeMainFoodTableMode() {
+    let foodTable = document.getElementById("main-food-table").children;
+    if (inputChecked.checked) {
+        for (let i = 0; i < foodTable.length; i++) {
+            foodTable[i].classList.remove("food-table-dark");
+            foodTable[i].classList.add("food-table-light");
+        }
+    }
+    else {
+        for (let i = 0; i < foodTable.length; i++) {
+            console.log(foodTable.length);
+            foodTable[i].classList.remove("food-table-light");
+            foodTable[i].classList.add("food-table-dark");
+        }
+    }   
+}
+
 function changeDisplayMode() {
     changeLayoutMode();
     changeNavMode();
@@ -103,6 +120,7 @@ function changeDisplayMode() {
     changeCategoryPathMode();
     changeMainMode();
     changeCarouselImages();
+    changeMainFoodTableMode();
     changeIconMode();
     changeFooterMode();
 };

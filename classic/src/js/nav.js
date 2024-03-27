@@ -41,7 +41,6 @@ function changeDropdownMenuMode() {
     if (inputChecked.checked) {
         dropdownMenu.classList.remove("menu-custom-dark");    
         dropdownMenu.classList.add("menu-custom-light");
-
         let dropdownItems = dropdownMenu.children;
         for (let i = 0; i < dropdownItems.length; i++) {
             dropdownItems[i].classList.remove("item-custom-dark");

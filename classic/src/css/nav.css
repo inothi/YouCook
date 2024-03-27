@@ -2,7 +2,7 @@
 
 nav {
     max-width: 1400px;
-    box-shadow: -1px 0px 8px var(--color-red-light), 1px 0px 8px var(--color-red-light);
+    box-shadow: 6px 0 4px -4px var(--color-red-light), -6px 0 4px -4px var(--color-red-light);
 }
 
 .navbar {

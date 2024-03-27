@@ -27,7 +27,6 @@
   </head>
   
 <body style="background-color: var(--color-blue);">
-
     <header>
         <nav class="navbar navbar-expand-lg bg-custom justify-content-end" id="navbar">
             <button class="navbar-toggler toggler-custom-dark collapsed justify-content-end" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,25 +35,25 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav text-center">
                     <li class="nav-item">
-                        <a class="nav-link links-dark active-link" onclick="activeLink(this)" href="#">Start</a>
+                        <a class="nav-link links-dark active-link" onclick="activeLink(this)" href="#">Home</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link links-dark dropdown-toggle" onclick="activeLink(this)" href="#test" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Księga przepisów</a>
+                        <a class="nav-link links-dark dropdown-toggle" onclick="activeLink(this)" href="#test" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Recipes book</a>
                         <div class="dropdown-menu text-center menu-custom-dark" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item item-custom-dark" href="#">Wszystkie przepisy</a>
-                            <a class="dropdown-item item-custom-dark" href="#">Polecane na dzisiaj</a>
-                            <a class="dropdown-item item-custom-dark" href="#">Najpopularniejsze</a>
-                            <a class="dropdown-item item-custom-dark" href="#">Najwyżej oceniane</a>
+                            <a class="dropdown-item item-custom-dark" href="#">All recipes</a>
+                            <a class="dropdown-item item-custom-dark" href="#">Recommended for today</a>
+                            <a class="dropdown-item item-custom-dark" href="#">Most popular recipes</a>
+                            <a class="dropdown-item item-custom-dark" href="#">Top rated recipes</a>
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link links-dark" onclick="activeLink(this)" href="#">Moje przepisy</a>
+                        <a class="nav-link links-dark" onclick="activeLink(this)" href="#">My recipes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link links-dark" onclick="activeLink(this)" href="#">Lista zakupów</a>
+                        <a class="nav-link links-dark" onclick="activeLink(this)" href="#">Shopping list</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link links-dark blinking-link-dark" onclick="activeLink(this)" href="#">Sprawdź co możesz przygotować!</a>
+                        <a class="nav-link links-dark blinking-link-dark" onclick="activeLink(this)" href="#">Check what you can cook!</a>
                     </li>
                 </ul>
             </div>
@@ -104,18 +103,16 @@
         <div class="main-carousel-border"></div>
         <div class="carousel-border-bottom"></div>
         <div class="main-border">
-            <div class="container pt-5 pb-5 mb-5">
-                <div class="row g-2 pt-5 pb-5" id="mainFoodTable">
-
-                </div>
+            <div class="container">
+                <div class="row g-3" id="main-food-table"></div>
             </div>
         </div>
-    
+    <button class="scroll-button" id="scroll-button" onClick="scrollBtn()">go to the top</button>
     </main>
 
     <footer>
         <div class="footer-box container row">
-            <div class="social-media col-xl-6 col-lg-7 col-md-12 col-sm-12 justify-content-center copyrights">2024 &copy; All Right Reserved. Projekt zaliczeniowy Akademia WSB.</div>
+            <div class="social-media col-xl-6 col-lg-7 col-md-12 col-sm-12 justify-content-center copyrights">2024 &copy; All Right Reserved. WSB Academy Final Project.</div>
             <div class="social-media col-xl-4 col-lg-3 col-md-9 col-sm-8 justify-content-center">
                 <ul>
                     <li class="px-xl-3 px-lg-2 px-md-4 px-sm-3 px-4"><a href="#"><i class="fa-brands fa-square-facebook fa-2xl"></i></a></li>

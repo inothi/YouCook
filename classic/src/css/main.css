@@ -2,17 +2,29 @@
 @import url("../css/header.css");
 @import url("../css/nav.css");
 @import url("../css/footer.css");
-
+@import url('https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Foundation:wght@400..700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 
 html, body, div {
     margin: 0;
     padding: 0;
     border: 0;
+    font-family: "Lato", sans-serif;
+    font-weight: 300;
+    font-style: normal;
     box-sizing: border-box;
 }
 
 html {
+    overflow-y: scroll;
     scrollbar-width: none;
+}
+
+main {
+    margin: 0 auto;
+    transition: all .25s ease;
+    background-color: var(--color-blue-dark);
+    max-width: 1400px;
+    z-index: -5;
 }
 
 .firstPageImages {
@@ -68,7 +80,7 @@ html {
     top: -10px;
     background-color: var(--color-red-light);
     box-shadow: 0 4px 8px var(--color-red-light);
-    z-index: 0;
+    z-index: 1;
 }
 
 .carousel-control-prev,
@@ -80,32 +92,125 @@ html {
     transition: all .25s ease;
     max-width: 1400px;
     box-shadow: 6px 0 4px -4px var(--color-red-light), -6px 0 4px -4px var(--color-red-light);
+    padding: 75px 0 150px 0;
+    z-index: -5;
 }
 
-.img-custom {
-    img {
-        width: 100%;
-    }
+.container {
+    max-width: 1200px !important;
+}
+
+.main-food-table {
+    position: unset;
     overflow: hidden;
+    transition: all .15s ease-in-out;
+    margin: 0 0 35px 0;
+    overflow: hidden;
+    text-align: center;
+
+    img {
+        transition: all .25s ease;
+        width: 100%;
+        padding: 10px;
+        filter: brightness(75%);
+        filter: grayscale(25%);
+    }
+
+    .food-name {
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &:hover {
+        text-decoration: none;
+        transition: all .15s ease-in-out;
+        transform: scale(1.05);
+
+        img {
+            transition: all .25s ease;
+            filter: brightness(100%);
+            filter: grayscale(0);
+        }
+
+        .food-name {
+            filter: brightness(100%);
+            filter: grayscale(0);
+        }
+    }
 }
 
-main {
-    margin: 0 auto;
-    transition: all .25s ease;
-    background-color: var(--color-blue-dark);
-    max-width: 1400px;
+.food-table-dark {
+    color: #fff;
+
+    img {
+        background-color: var(--color-red-light-light);
+    }
+
+    .food-name {
+        text-shadow: 2px 4px 8px #000;
+    }
+
+    &:hover {
+        color: var(--color-green-light);
+
+        .food-name {
+            text-shadow: 2px 4px 8px #000;
+        }
+    }
 }
 
-.pad-tb {
-    padding-top: 50px;
-    padding-bottom: 125px;
-    gap: 5px;
+.food-table-light {
+    color: #000;
+
+    img {
+        background-color: var(--color-red);
+    }
+
+    .food-name {
+        text-shadow: none;
+        font-weight: 700;
+
+        &:hover {
+            text-shadow: none;
+        }
+    }
+
+    &:hover {
+        color: var(--color-red);
+    }
+}
+
+.scroll-button {
+    transition: all 1s ease;
+    opacity: 0;
+    position: fixed;
+    bottom: 100px;
+    right: 50px;
+    height: 50px;
+    width: 50px;
+    border: 0;
+    border-radius: 25%;
+    box-shadow: 2px 2px 4px #000;
+    font-size: 12px;
+    color: #fff;
+    text-shadow: 2px 2px 4px #000;
+    background-color: #666;
+
+    &:hover {
+        background-color: #333;
+    }
 }
 
 /* MediaQuery */
 @media screen and (max-width: 991px) and (orientation: portrait) {
     .main-carousel-border {
         display: none;
+    }
+    
+    .carousel {
+        z-index: 5;
     }
 }
 @media screen and (min-width: 768px) {
