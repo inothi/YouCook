@@ -1,0 +1,39 @@
+.recipe-header {
+    position: unset;
+    overflow: hidden;
+    transition: all .15s ease-in-out;
+    margin: 0 0 35px 0;
+    overflow: hidden;
+    text-align: center;
+    color: #ddd;
+
+    img {
+        background-color: var(--color-red-light-light);
+        float: left;
+        transition: all .25s ease;
+        width: 100%;
+        padding: 10px;
+    }
+}
+
+.recipe-header-ingredients {
+    position: unset;
+    overflow: hidden;
+    transition: all .15s ease-in-out;
+    margin: 0 0 35px 0;
+    overflow: hidden;
+    text-align: left;
+    color: #ddd;
+
+    img {
+        float: left;
+        transition: all .25s ease;
+        width: 50px;
+        padding: 10px;
+
+        &:hover {
+            transition: all .5s ease;
+            width: 100px;
+        }
+    }
+}

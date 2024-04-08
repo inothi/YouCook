@@ -19,18 +19,30 @@ header {
 
 .category-path {
     max-width: 1400px;
+    display: flex;
+    align-items: center;
 
     a {
+        transition: all .25s ease;
         text-decoration: none;
-        color: #666;
-        margin: 0 0 0 10px;
+        color: #999;
+
+        &:hover {
+            color: #fff;
+        }
     }
 
     span {
-
+        margin-bottom: 4px;
         a {
+            transition: all .25s ease;
             text-decoration: none;
-            color: #fff;
+            color: #999;
+            font-size: 12px;
+
+            &:hover {
+                color: #fff;
+            }
         }
 
         &::before {
