@@ -1,3 +1,36 @@
+// array with flags of countries
+const flagsUrlArray = [
+    {strArea: "American", strAreaUrl: "us"},
+    {strArea: "British", strAreaUrl: "gb"},
+    {strArea: "Canadian", strAreaUrl: "ca"},
+    {strArea: "Chinese", strAreaUrl: "cn"},
+    {strArea: "Croatian", strAreaUrl: "hr"},
+    {strArea: "Dutch", strAreaUrl: "nl"},
+    {strArea: "Egyptian", strAreaUrl: "eg"},
+    {strArea: "Filipino", strAreaUrl: "ph"},
+    {strArea: "French", strAreaUrl: "fr"},
+    {strArea: "Greek", strAreaUrl: "gr"},
+    {strArea: "Indian", strAreaUrl: "in"},
+    {strArea: "Irish", strAreaUrl: "ie"},
+    {strArea: "Italian", strAreaUrl: "it"},
+    {strArea: "Jamaican", strAreaUrl: "jm"},
+    {strArea: "Japanese", strAreaUrl: "jp"},
+    {strArea: "Kenyan", strAreaUrl: "kn"},
+    {strArea: "Malaysian", strAreaUrl: "my"},
+    {strArea: "Mexican", strAreaUrl: "mx"},
+    {strArea: "Moroccan", strAreaUrl: "ma"},
+    {strArea: "Polish", strAreaUrl: "pl"},
+    {strArea: "Portuguese", strAreaUrl: "pt"},
+    {strArea: "Russian", strAreaUrl: "ru"},
+    {strArea: "Spanish", strAreaUrl: "es"},
+    {strArea: "Thai", strAreaUrl: "th"},
+    {strArea: "Tunisian", strAreaUrl: "tn"},
+    {strArea: "Turkish", strAreaUrl: "tr"},
+    {strArea: "Vietnamese", strAreaUrl: "vn"}
+];
+
+
+// make array with recipes id's
 const idFoodArray = [];
 for (let i = 52764; i <= 53083; i++) {
     idFoodArray.push(i);
@@ -23,7 +56,6 @@ function updateCategoryPath(id) {
         url: `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
     }).then((response) => {
         let recipes = response.data;
-        console.log(recipes);
         let categoryPath = document.getElementById("category-path");
         categoryPath.innerHTML = `<a href="./index.html"><i class="fa-solid fa-house fa-2xs"></i></a>`;
         categoryPath.innerHTML += `
@@ -37,37 +69,62 @@ function updateCategoryPath(id) {
 
 // creating details of selected recipe
 function selectedRecipeDetails(id) {
-    let selectedFoodTable = document.getElementById("main-food-table");
-    selectedFoodTable.innerHTML = "";
+    let selectedRecipeImage = document.getElementById("selected-recipe-image");
+    let selectedRecipeTitle = document.getElementById("selected-recipe-title");
+    let selectedRecipeDetails = document.getElementById("selected-recipe-details");
+    let selectedRecipeIngredientsTable = document.getElementById("ingredients-table");
     axios({
         url: `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
     }).then((response) => {
         let selectedRecipe = response.data;
-        let objectNames = Object.keys(selectedRecipe.meals[0]);
-        let objectIngredients = objectNames.filter(elem => elem.startsWith("strIngredient"));
+        let recipe = Object.entries(selectedRecipe.meals[0]);
+        let recipeIngredients = recipe.filter(([key, value]) => (key.startsWith("strIngredient") && value != ""));
+        let recipeMeasures = recipe.filter(([key, value]) => (key.startsWith("strMeasure") && value != ""));
+        let flags = flagsUrlArray.filter((country) => {
+            return country.strArea == selectedRecipe.meals[0].strArea;
+        });
         if (localStorage.getItem("inputChecked") == true) {
-            selectedFoodTable.innerHTML += `
-            <div class="col-lg-12 col-md-4 col-sm-6 col-12">
-                <h1>${selectedRecipe.meals[0].strMeal}</h1>
-                <a class="col-lg-3 col-md-4 col-sm-6 col-12 main-food-table food-table-light" href="#">
-                    <div class="food-name">${selectedRecipe.meals[0].strMeal}</div>
-                    <img src="' + selectedRecipe.meals[0].strMealThumb + '">
-                </a>
-            </div>`
+            // selectedFoodTable.innerHTML += `
+            // <div class="col-lg-12 col-md-4 col-sm-6 col-12">
+            //     <h1>${selectedRecipe.meals[0].strMeal}</h1>
+            //     <a class="col-lg-3 col-md-4 col-sm-6 col-12 main-food-table food-table-light" href="#">
+            //         <div class="food-name">${selectedRecipe.meals[0].strMeal}</div>
+            //         <img src="' + selectedRecipe.meals[0].strMealThumb + '">
+            //     </a>
+            // </div>`
         }
         else {
-            selectedFoodTable.innerHTML += `
-            <div class="col-lg-5 col-md-4 col-sm-6 col-12 recipe-header">
-                <img src="${selectedRecipe.meals[0].strMealThumb}">
-            </div>
-            <div class="col-lg-7 col-md-4 col-sm-6 col-12 recipe-header-ingredients">
-                <h3>${selectedRecipe.meals[0].strMeal}</h3>
-                <h6>Ingredients:</h6>
-                <span>
-                    <img src="https://www.themealdb.com/images/ingredients/${selectedRecipe.meals[0].strIngredient1}.png">
-                    ${selectedRecipe.meals[0].strIngredient1}
-                </span>
-            </div>`
+            selectedRecipeTitle.innerHTML += `<h3>${selectedRecipe.meals[0].strMeal}</h3>`;
+            selectedRecipeImage.innerHTML += `<img src="${selectedRecipe.meals[0].strMealThumb}">`;
+            selectedRecipeDetails.innerHTML += `
+                <h4>Specialty of cuisine:</h4>
+                <div class="img-cat">
+                    <a class="recipes-links" href="#">
+                        <img 
+                            class="country-image" 
+                            src="https://www.themealdb.com/images/icons/flags/big/64/${flags[0].strAreaUrl}.png">
+                        ${selectedRecipe.meals[0].strArea}
+                    </a>
+                </div><br /><br />`;
+            selectedRecipeDetails.innerHTML += `
+                <h4>Recipe category:</h4>
+                <div class="img-cat">
+                    <a class="recipes-links" href="#">
+                        <img 
+                            class="category-image" 
+                            src="https://www.themealdb.com/images/category/${selectedRecipe.meals[0].strCategory}.png">
+                        ${selectedRecipe.meals[0].strCategory}
+                    </a>
+                </div>`;
+            for (let i = 0; i < recipeIngredients.length; i++) {
+                selectedRecipeIngredientsTable.innerHTML += `
+                <tr>
+                    <th class="align-middle" scope="row">${i + 1}</th>
+                    <td class="align-middle"><img class="recipe-ingredients-image" src="https://www.themealdb.com/images/ingredients/${recipeIngredients[i][1]}.png">${recipeIngredients[i][1]}</td>
+                    <td class="align-middle">${recipeMeasures[i][1]}</td>
+                    <td class="align-middle">${recipeMeasures[i][1]}</td>
+                </tr>`
+            }
         }
     }).catch(function(error) {
         // here will be code for a error message on main page;
@@ -86,7 +143,6 @@ function getRandomRecipes() {
             url: `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idFoodArray.splice(Math.floor(Math.random() * idFoodArray.length), 1)[0]}`
         }).then((response) => {
             let randomRecipe = response.data;
-            console.log(localStorage.getItem("inputChecked"));
             if (localStorage.getItem("inputChecked") == "true") {
                 mainFoodTable.innerHTML += `<a class="col-lg-3 col-md-4 col-sm-6 col-12 main-food-table food-table-light" href="./recipes_details.html?id=${randomRecipe.meals[0].idMeal}">` 
                 + '<div class="food-name">' + randomRecipe.meals[0].strMeal + '</div>'

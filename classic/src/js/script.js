@@ -57,9 +57,11 @@ function toggleTheme() {
         for (let i = 0; i < carousel.length; i++) {
             carousel[i].children[0].src = "../classic/src/assets/img/carouselImg0" + [i + 1] + ".jpg";
         }
-        for (let i = 0; i < foodTable.length; i++) {
-            foodTable[i].classList.remove("food-table-light");
-            foodTable[i].classList.add("food-table-dark");
+        if (window.location.href.indexOf("index.html") > -1) {
+            for (let i = 0; i < foodTable.length; i++) {
+                foodTable[i].classList.remove("food-table-light");
+                foodTable[i].classList.add("food-table-dark");
+            }
         }
     }
 }

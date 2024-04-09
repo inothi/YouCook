@@ -16,24 +16,73 @@
     }
 }
 
-.recipe-header-ingredients {
+.recipe-header-title {
+    transition: all .15s ease-in-out;
+    text-align: left;
+    color: var(--color-green-light);
+    margin: 0 0 50px 0;
+}
+
+.recipe-header-details {
+    text-align: left;
+    color: #ddd;
+}
+
+.category-image,
+.country-image {
+    max-width: 64px;
+    margin: 0 25px 0 0;
+}
+
+.img-cat {
+    display: flex;
+    align-items: center;
+    height: 64px;
+}
+
+.recipes-links {
+    transition: all .25s ease;
+    text-decoration: none;
+    font-size: 20px;
+    color: var(--color-green-light-light);
+
+    &:hover {
+        color: var(--color-green);
+        text-decoration: none;
+    }
+}
+
+.recipe-table-ingredients {
+    text-align: left;
+    color: #ddd;
+}
+
+.recipe-ingredients-image {
+    transition: all .25s ease;
+    width: 60px;
+    padding: 10px;
+}
+
+.table-dark {
+    margin-top: 35px;
+    background-color: var(--color-blue-dark-dark) !important;
+    thead > tr > th, td, th {
+        border-color: var(--color-red-light-light);
+    }
+}
+
+.recipe-ingredients-image-zapas {
     position: unset;
     overflow: hidden;
     transition: all .15s ease-in-out;
-    margin: 0 0 35px 0;
+    margin: 0 0 5px 0;
     overflow: hidden;
     text-align: left;
-    color: #ddd;
+    color: var(--color-green-light);
 
     img {
         float: left;
-        transition: all .25s ease;
         width: 50px;
         padding: 10px;
-
-        &:hover {
-            transition: all .5s ease;
-            width: 100px;
-        }
     }
 }

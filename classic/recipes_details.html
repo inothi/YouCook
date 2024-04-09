@@ -104,7 +104,24 @@
         <div class="carousel-border-bottom"></div>
         <div class="main-border">
             <div class="container">
-                <div class="row g-3" id="main-food-table"></div>
+                <div class="row g-3" id="main-food-table">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12 recipe-header-title" id="selected-recipe-title"><!-- recipe name --></div>
+                    <div class="col-lg-5 col-md-4 col-sm-12 col-12 recipe-header" id="selected-recipe-image"><!-- recipe image --></div>
+                    <div class="col-lg-7 col-md-8 col-sm-12 col-12 recipe-header-details" id="selected-recipe-details"><!-- recipe country, recipe category --></div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12 recipe-table-ingredients" id="selected-recipe-ingredients">
+                        <table class="table table-striped table-dark">
+                            <thead>
+                                <tr>
+                                    <th scope="col">No.</th>
+                                    <th scope="col">Ingredient</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ingredients-table"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     <button class="scroll-button" id="scroll-button" onClick="scrollBtn()">go to the top</button>
