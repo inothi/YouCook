@@ -3,6 +3,7 @@
 @import url("../css/nav.css");
 @import url("../css/recipe.css");
 @import url("../css/footer.css");
+@import url("../css/shopping.css");
 @import url('https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Foundation:wght@400..700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 
 html, body, div {
@@ -198,10 +199,15 @@ main {
     color: #fff;
     text-shadow: 2px 2px 4px #000;
     background-color: #666;
+    z-index: 9999;
 
     &:hover {
         background-color: #333;
     }
+}
+
+.fa-size {
+    font-size: 24px;
 }
 
 /* MediaQuery */
@@ -214,6 +220,18 @@ main {
         z-index: 5;
     }
 }
+
+@media screen and (max-width: 768px) {
+    .scroll-button {
+        width: 30px;
+        height: 30px;
+    }
+
+    .fa-size {
+        font-size: 16px;
+    }
+}
+
 @media screen and (min-width: 768px) {
     .firstPageImages {
         min-height: 30vh;

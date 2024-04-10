@@ -82,8 +82,27 @@ label {
     color: #999;
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 768px) {
     .copyrights {
-        font-size: 14px;
+        font-size: 12px;
+    }
+
+    .social-media {
+        margin: 5px 0;
+    }
+
+    .fa-brands {
+        font-size: 24px;
+    }
+
+    .fa-sun,
+    .fa-moon {
+        font-size: 17px;
+    }
+
+    .switch-btn {
+        width: 22px;
+        height: 22px;
+        border-radius: 3px;
     }
 }

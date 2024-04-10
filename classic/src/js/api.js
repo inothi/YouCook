@@ -78,8 +78,8 @@ function selectedRecipeDetails(id) {
     }).then((response) => {
         let selectedRecipe = response.data;
         let recipe = Object.entries(selectedRecipe.meals[0]);
-        let recipeIngredients = recipe.filter(([key, value]) => (key.startsWith("strIngredient") && value != ""));
-        let recipeMeasures = recipe.filter(([key, value]) => (key.startsWith("strMeasure") && value != ""));
+        let recipeIngredients = recipe.filter(([key, value]) => (key.startsWith("strIngredient") && value != null && value != ""));
+        let recipeMeasures = recipe.filter(([key, value]) => (key.startsWith("strMeasure") && value != "" && value != null));
         let flags = flagsUrlArray.filter((country) => {
             return country.strArea == selectedRecipe.meals[0].strArea;
         });
@@ -122,7 +122,7 @@ function selectedRecipeDetails(id) {
                     <th class="align-middle" scope="row">${i + 1}</th>
                     <td class="align-middle"><img class="recipe-ingredients-image" src="https://www.themealdb.com/images/ingredients/${recipeIngredients[i][1]}.png">${recipeIngredients[i][1]}</td>
                     <td class="align-middle">${recipeMeasures[i][1]}</td>
-                    <td class="align-middle">${recipeMeasures[i][1]}</td>
+                    <td class="align-middle text-center"><i class="fa-solid fa-circle-plus"></i></td>
                 </tr>`
             }
         }
@@ -162,33 +162,3 @@ function getRandomRecipes() {
         });
     }
 };
-
-
-// load more recipes by scrolling to the bottom of the website
-window.onscroll = function() {
-    // check url is main page
-    if (window.location.href.indexOf('index.html') > -1) {
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-            getRandomRecipes();
-        };
-        let scrollBtn = document.getElementById("scroll-button");
-        if ((document.body.scrollTop > 1000) || document.documentElement.scrollTop > 1000) {
-            scrollBtn.style.opacity = "1";
-        }
-        else {
-            scrollBtn.style.opacity = "0";
-        }
-    }
-};
-
-// scroll to the top of the website after button 'go to the top' is clicked
-function scrollBtn() {
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-}
-
-if (window.location.href.indexOf('recipes_details.html') > -1) {
-    
-}
