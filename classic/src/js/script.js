@@ -105,16 +105,60 @@ function scrollBtn() {
 
 
 // shopping list
-let shoppingList = [
-    {ingredient: "paprika", quantity: 3},
-    {ingredient: "onion", quantity: 2},
-    {ingredient: "chicken breast", quantity: 1},
-    {ingredient: "potato", quantity: 5}
-];
-console.log(shoppingList);
+// let shoppingList = [
+//     {ingredient: "paprika", quantity: 3},
+//     {ingredient: "onion", quantity: 2},
+//     {ingredient: "chicken breast", quantity: 1},
+//     {ingredient: "potato", quantity: 5}
+// ];
+
+
+function addItemToShoppingList(ing, qty) {
+    let validate = ingredientsValidation(ing);
+    if (validate) {
+        let existingShoppingList = JSON.parse(localStorage.getItem("shoppingList"));
+        if (existingShoppingList == null) {
+            existingShoppingList = [];
+        }
+        let ingredient = ing;
+        let quantity = qty;
+        if (quantity.length == 1) {
+            quantity = Number(quantity);
+        }
+        else if (quantity.length > 2) {
+            quantity = quantity.split(" ")[0];
+            if (quantity.length == 1) {
+                quantity = Number(1);
+            }
+            else if (quantity.includes('/')) {
+                quantity = Number(1);
+            }
+        }
+        let item = {
+            "ingredient": ingredient,
+            "quantity": quantity
+        }
+        localStorage.setItem("item", JSON.stringify(item));
+        existingShoppingList.push(item);
+        localStorage.setItem("shoppingList", JSON.stringify(existingShoppingList));
+    }
+}
+
+
+function ingredientsValidation(ing) {
+    let existingShoppingList = JSON.parse(localStorage.getItem("shoppingList"));
+    let doesItemExist = existingShoppingList.some((elem) => elem.ingredient === ing);
+    if (doesItemExist) {
+        alert("Błąd");
+        return false;
+    }
+    return true;
+}
+
 
 function loadShoppingList() {
     let shoppingListTable = document.getElementById("shopping-list");
+    let shoppingList = JSON.parse(localStorage.getItem("shoppingList"));
     for (let i = 0; i < shoppingList.length; i++) {
         shoppingListTable.innerHTML += `
         <tr>
@@ -128,6 +172,7 @@ function loadShoppingList() {
             </td>
         </tr>`
     }
-    console.log(shoppingListTable);
 }
-loadShoppingList();
+
+
+// check url for shopping list
