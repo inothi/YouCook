@@ -147,6 +147,7 @@ function addItemToShoppingList(ing, qty) {
 
 function ingredientsValidation(ing) {
     let existingShoppingList = JSON.parse(localStorage.getItem("shoppingList"));
+    if (existingShoppingList == null) return true;
     let doesItemExist = existingShoppingList.some((elem) => elem.ingredient === ing);
     if (doesItemExist) {
         alert("Błąd");
