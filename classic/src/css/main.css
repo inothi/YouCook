@@ -96,6 +96,7 @@ main {
     box-shadow: 6px 0 4px -4px var(--color-red-light), -6px 0 4px -4px var(--color-red-light);
     padding: 75px 0 150px 0;
     z-index: -5;
+    min-height: calc(100vh - 500px);
 }
 
 .container {

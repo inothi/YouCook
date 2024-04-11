@@ -125,7 +125,7 @@ function selectedRecipeDetails(id) {
                     <th class="align-middle" scope="row">${i + 1}</th>
                     <td class="align-middle"><img class="recipe-ingredients-image" src="https://www.themealdb.com/images/ingredients/${recipeIngredients[i][1]}.png">${recipeIngredients[i][1]}</td>
                     <td class="align-middle">${recipeMeasures[i][1]}</td>
-                    <td class="align-middle text-center"><span data-tooltip="Add this ingredient to your shopping list" href="#"><i class="fa-solid fa-circle-plus" onClick="addItemToShoppingList('${recipeIngredients[i][1]}', '${recipeMeasures[i][1]}')"></span></i></td>
+                    <td class="align-middle text-center"><span data-tooltip="Add to your shopping list"><i class="fa-solid fa-circle-plus" onClick="addItemToShoppingList('${recipeIngredients[i][1]}', '${recipeMeasures[i][1]}')"></span></i></td>
                 </tr>`
             }
         }

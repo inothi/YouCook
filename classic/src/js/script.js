@@ -104,15 +104,6 @@ function scrollBtn() {
 }
 
 
-// shopping list
-// let shoppingList = [
-//     {ingredient: "paprika", quantity: 3},
-//     {ingredient: "onion", quantity: 2},
-//     {ingredient: "chicken breast", quantity: 1},
-//     {ingredient: "potato", quantity: 5}
-// ];
-
-
 function addItemToShoppingList(ing, qty) {
     let validate = ingredientsValidation(ing);
     if (validate) {
@@ -167,13 +158,67 @@ function loadShoppingList() {
             <td class="align-middle">${shoppingList[i].ingredient}</td>
             <td class="align-middle">${shoppingList[i].quantity}</td>
             <td class="align-middle text-center">
-                <i class="fa-solid fa-circle-plus margin-right"></i>&nbsp;
-                <i class="fa-solid fa-trash-can margin-right"></i>&nbsp;
-                <i class="fa-solid fa-pen-to-square"></i>
+                <span data-shopping="Edit product"><i class="fa-solid fa-pen-to-square margin-both"></i></span>
+                <span data-shopping="Delete product"><i class="fa-solid fa-trash-can margin-both"></i></span>
+                <span data-shopping="Mark as bought"><i class="fa-solid fa-circle-check margin-both"></i></span>
             </td>
         </tr>`
     }
 }
 
 
-// check url for shopping list
+// validation if shopping list is sorted
+function checkListSorted() {
+    let sortedList = JSON.parse(localStorage.getItem("shoppingList"));
+    console.log(sortedList);
+    for (let i = 0; i < sortedList.length - 1; i++) {
+        if (sortedList[i].ingredient > sortedList[i + 1].ingredient) {
+            return false;
+        }
+    }
+    return true;
+}
+
+
+// sort shopping list
+function sortList() {
+    let sortByIngredients = JSON.parse(localStorage.getItem("shoppingList"));
+    if (checkListSorted()) {
+        sortByIngredients.reverse();
+    }
+    else {
+        sortByIngredients.sort((a, b) => {
+            if (a.ingredient.toLowerCase() > b.ingredient.toLowerCase()) {
+                return 1;
+            }
+            else return -1;
+        })
+    }
+    localStorage.setItem("shoppingList", JSON.stringify(sortByIngredients));
+    let clearList = document.getElementById("shopping-list");
+    clearList.innerHTML = "";
+    loadShoppingList();
+}
+
+
+
+
+// list with categories of products
+let foodCategories = [
+    "Alcohol",
+    "Bread",
+    "Cakes and desserts",
+    "Diary",
+    "Fats",
+    "Fish", 
+    "Frozen",
+    "Fruits",
+    "Grain",
+    "Meat & cold cuts",
+    "Muesli",
+    "Preparations",
+    "Ready meals",
+    "Snacks",
+    "Vegetables",
+    "Water & drinks"
+]

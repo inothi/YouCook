@@ -1,3 +1,83 @@
-.margin-right {
-    margin: 0 15px 0 0;
+.margin-both {
+    margin: 0 8px;
+}
+
+.sort-list {
+    cursor: pointer;
+}
+
+.column-num {
+    width: 50px;
+}
+
+
+[data-shopping] {
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+}
+
+/* Hide the tooltip content by default */
+[data-shopping]:before,
+[data-shopping]:after {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Position tooltip above the element */
+[data-shopping]:before {
+    position: absolute;
+    bottom: 150%;
+    left: 50%;
+    margin-bottom: 5px;
+    margin-left: -110px;
+    padding: 7px;
+    width: 210px;
+    border-radius: 3px;
+    background-color: var(--color-red-light);
+    color: #fff;
+    content: attr(data-shopping);
+    text-align: center;
+    font-size: 16px;
+    line-height: 1.2;
+}
+
+/* Triangle hack to make tooltip look like a speech bubble */
+[data-shopping]:after {
+    position: absolute;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -5px;
+    width: 0;
+    border-top: 5px solid var(--color-red-light);
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    content: " ";
+    font-size: 0;
+    line-height: 0;
+}
+
+/* Show tooltip content on hover */
+[data-shopping]:hover:before,
+[data-shopping]:hover:after {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+@media screen and (max-width: 991px) {
+    [data-shopping]:before {
+        margin-left: -230px;
+        margin-bottom: -45px;
+    }
+
+    [data-shopping]:after {
+        border-bottom: 5px solid transparent;
+        border-left: 5px solid var(--color-red-light);
+        border-right: 5px solid transparent;
+        border-top: 5px solid transparent;
+        bottom: 25%;
+        margin-left: -20px;
+    }
 }
