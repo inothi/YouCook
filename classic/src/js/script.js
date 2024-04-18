@@ -121,6 +121,12 @@ function addItemToShoppingList(ing, qty) {
             if (quantity.length == 1) {
                 quantity = Number(1);
             }
+            else if (quantity.length == 2) {
+                quantity = Number(quantity);
+            }
+            else if (quantity.length > 2) {
+                quantity = Number(1);
+            }
             else if (quantity.includes('/')) {
                 quantity = Number(1);
             }
@@ -159,7 +165,7 @@ function loadShoppingList() {
             <td class="align-middle">${shoppingList[i].quantity}</td>
             <td class="align-middle text-center">
                 <span data-shopping="Edit product"><i class="fa-solid fa-pen-to-square margin-both"></i></span>
-                <span data-shopping="Delete product"><i class="fa-solid fa-trash-can margin-both"></i></span>
+                <span data-shopping="Delete product"><i onclick="deleteFromShoppingList(${i})" class="fa-solid fa-trash-can margin-both"></i></span>
                 <span data-shopping="Mark as bought"><i class="fa-solid fa-circle-check margin-both"></i></span>
             </td>
         </tr>`
@@ -170,7 +176,6 @@ function loadShoppingList() {
 // validation if shopping list is sorted
 function checkListSorted() {
     let sortedList = JSON.parse(localStorage.getItem("shoppingList"));
-    console.log(sortedList);
     for (let i = 0; i < sortedList.length - 1; i++) {
         if (sortedList[i].ingredient > sortedList[i + 1].ingredient) {
             return false;
@@ -183,6 +188,7 @@ function checkListSorted() {
 // sort shopping list
 function sortList() {
     let sortByIngredients = JSON.parse(localStorage.getItem("shoppingList"));
+    // checking whether the shopping list has been previously sorted
     if (checkListSorted()) {
         sortByIngredients.reverse();
     }
@@ -201,6 +207,15 @@ function sortList() {
 }
 
 
+// deleting ingredient from shopping list
+function deleteFromShoppingList(position) {
+    let ingredientsOnTheList = JSON.parse(localStorage.getItem("shoppingList"));
+    ingredientsOnTheList.splice(position, 1);
+    localStorage.setItem("shoppingList", JSON.stringify(ingredientsOnTheList));
+    let clearList = document.getElementById("shopping-list");
+    clearList.innerHTML = "";
+    loadShoppingList();
+}
 
 
 // list with categories of products
