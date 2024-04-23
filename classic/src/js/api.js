@@ -86,7 +86,7 @@ function selectedRecipeDetails(id) {
         let flags = flagsUrlArray.filter((country) => {
             return country.strArea == selectedRecipe.meals[0].strArea;
         });
-        if (localStorage.getItem("inputChecked") == true) {
+        if (JSON.parse(localStorage.getItem("inputChecked")) == true) {
             // selectedFoodTable.innerHTML += `
             // <div class="col-lg-12 col-md-4 col-sm-6 col-12">
             //     <h1>${selectedRecipe.meals[0].strMeal}</h1>
@@ -125,9 +125,10 @@ function selectedRecipeDetails(id) {
                     <th class="align-middle" scope="row">${i + 1}</th>
                     <td class="align-middle"><img class="recipe-ingredients-image" src="https://www.themealdb.com/images/ingredients/${recipeIngredients[i][1]}.png">${recipeIngredients[i][1]}</td>
                     <td class="align-middle">${recipeMeasures[i][1]}</td>
-                    <td class="align-middle text-center"><span data-tooltip="Add to your shopping list"><i class="fa-solid fa-circle-plus" onClick="addItemToShoppingList('${recipeIngredients[i][1]}', '${recipeMeasures[i][1]}')"></span></i></td>
+                    <td class="align-middle text-center"><span data-tooltip="Add to your shopping list"><i class="fa-solid fa-circle-plus" onClick="addItemToShoppingList('https://www.themealdb.com/images/ingredients/${recipeIngredients[i][1]}.png', '${recipeIngredients[i][1]}', '${recipeMeasures[i][1]}', false)"></span></i></td>
                 </tr>`
             }
+            checkIsAddedToList();
         }
     }).catch(function(error) {
         // here will be code for a error message on main page;
@@ -136,6 +137,22 @@ function selectedRecipeDetails(id) {
     });
     updateCategoryPath(id);
 };
+
+
+// checking if ingredient is added to shopping list and change icon
+function checkIsAddedToList() {
+    let shoppingList = JSON.parse(localStorage.getItem("shoppingList"));
+    let ingredientRow = document.getElementById("ingredients-table").children;
+    for (let i = 0; i < ingredientRow.length; i++) {
+        let ingredientName = String(ingredientRow[i].children[1].innerHTML.substring(String(ingredientRow[i].children[1].innerHTML.indexOf('>') + 1, 200)));
+        for (let j = 0; j < shoppingList.length; j++) {
+            if (shoppingList[j].ingredient == ingredientName) {
+
+                ingredientRow[i].children[3].innerHTML = `<span data-shopping="This ingredient has already been added to your shopping list"><i class="fa-solid fa-circle-check margin-both" style="color: var(--color-green)";></i></span>`;
+            }
+        }
+    }
+}
 
 
 // load 16 random recipes from api on the main page

@@ -10,6 +10,18 @@
     width: 50px;
 }
 
+.column-actions {
+    min-width: 100px;
+}
+
+.bought-products {
+    color: #666;
+
+    img {
+        filter: grayscale(1);
+    }
+}
+
 
 [data-shopping] {
     position: relative;

@@ -104,40 +104,60 @@ function scrollBtn() {
 }
 
 
-function addItemToShoppingList(ing, qty) {
+function addItemToShoppingList(img, ing, qty, bht, cat) {
     let validate = ingredientsValidation(ing);
     if (validate) {
         let existingShoppingList = JSON.parse(localStorage.getItem("shoppingList"));
         if (existingShoppingList == null) {
             existingShoppingList = [];
         }
+        let image = img;
         let ingredient = ing;
         let quantity = qty;
+        console.log(quantity.length);
         if (quantity.length == 1) {
             quantity = Number(quantity);
         }
         else if (quantity.length > 2) {
             quantity = quantity.split(" ")[0];
             if (quantity.length == 1) {
-                quantity = Number(1);
+                quantity = Number(quantity);
             }
             else if (quantity.length == 2) {
                 quantity = Number(quantity);
             }
-            else if (quantity.length > 2) {
-                quantity = Number(1);
-            }
             else if (quantity.includes('/')) {
-                quantity = Number(1);
+                quantity = 1;
+            }
+            else if (quantity.length >= 5) {
+                quantity = 1;
+            }
+            else if (quantity.length >= 3) {
+                quantity = quantity;
+            }
+            else if (quantity.length < 3) {
+                quantity = 1;
             }
         }
+        else if (quantity == null) {
+            quantity = 1;
+        }
+        let category = cat;
+        if (category == undefined) {
+            category = "Foodstuffs";
+        }
+        let bought = bht;
         let item = {
+            "image": image,
             "ingredient": ingredient,
-            "quantity": quantity
+            "quantity": quantity,
+            "category": category,
+            "bought": bought
         }
         localStorage.setItem("item", JSON.stringify(item));
         existingShoppingList.push(item);
         localStorage.setItem("shoppingList", JSON.stringify(existingShoppingList));
+        checkIsAddedToList();
     }
 }
 
@@ -147,93 +167,8 @@ function ingredientsValidation(ing) {
     if (existingShoppingList == null) return true;
     let doesItemExist = existingShoppingList.some((elem) => elem.ingredient === ing);
     if (doesItemExist) {
-        alert("Błąd");
+        alert("The ingredient you are trying to add already exists in your shopping list");
         return false;
     }
     return true;
 }
-
-
-function loadShoppingList() {
-    let shoppingListTable = document.getElementById("shopping-list");
-    let shoppingList = JSON.parse(localStorage.getItem("shoppingList"));
-    for (let i = 0; i < shoppingList.length; i++) {
-        shoppingListTable.innerHTML += `
-        <tr>
-            <th class="align-middle" scope="row">${i + 1}</th>
-            <td class="align-middle">${shoppingList[i].ingredient}</td>
-            <td class="align-middle">${shoppingList[i].quantity}</td>
-            <td class="align-middle text-center">
-                <span data-shopping="Edit product"><i class="fa-solid fa-pen-to-square margin-both"></i></span>
-                <span data-shopping="Delete product"><i onclick="deleteFromShoppingList(${i})" class="fa-solid fa-trash-can margin-both"></i></span>
-                <span data-shopping="Mark as bought"><i class="fa-solid fa-circle-check margin-both"></i></span>
-            </td>
-        </tr>`
-    }
-}
-
-
-// validation if shopping list is sorted
-function checkListSorted() {
-    let sortedList = JSON.parse(localStorage.getItem("shoppingList"));
-    for (let i = 0; i < sortedList.length - 1; i++) {
-        if (sortedList[i].ingredient > sortedList[i + 1].ingredient) {
-            return false;
-        }
-    }
-    return true;
-}
-
-
-// sort shopping list
-function sortList() {
-    let sortByIngredients = JSON.parse(localStorage.getItem("shoppingList"));
-    // checking whether the shopping list has been previously sorted
-    if (checkListSorted()) {
-        sortByIngredients.reverse();
-    }
-    else {
-        sortByIngredients.sort((a, b) => {
-            if (a.ingredient.toLowerCase() > b.ingredient.toLowerCase()) {
-                return 1;
-            }
-            else return -1;
-        })
-    }
-    localStorage.setItem("shoppingList", JSON.stringify(sortByIngredients));
-    let clearList = document.getElementById("shopping-list");
-    clearList.innerHTML = "";
-    loadShoppingList();
-}
-
-
-// deleting ingredient from shopping list
-function deleteFromShoppingList(position) {
-    let ingredientsOnTheList = JSON.parse(localStorage.getItem("shoppingList"));
-    ingredientsOnTheList.splice(position, 1);
-    localStorage.setItem("shoppingList", JSON.stringify(ingredientsOnTheList));
-    let clearList = document.getElementById("shopping-list");
-    clearList.innerHTML = "";
-    loadShoppingList();
-}
-
-
-// list with categories of products
-let foodCategories = [
-    "Alcohol",
-    "Bread",
-    "Cakes and desserts",
-    "Diary",
-    "Fats",
-    "Fish", 
-    "Frozen",
-    "Fruits",
-    "Grain",
-    "Meat & cold cuts",
-    "Muesli",
-    "Preparations",
-    "Ready meals",
-    "Snacks",
-    "Vegetables",
-    "Water & drinks"
-]
