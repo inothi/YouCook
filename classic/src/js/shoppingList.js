@@ -23,8 +23,8 @@ function loadShoppingList() {
 // validation if shopping list is sorted
 function checkListSorted(key) {
     for (let i = 0; i < shoppingList.length - 1; i++) {
-        let a = shoppingList[i][key];
-        let b = shoppingList[i + 1][key];
+        let a = shoppingList[i][key].toLowerCase();
+        let b = shoppingList[i + 1][key].toLowerCase();
         if (a > b) {
             return false;
         }
@@ -35,6 +35,7 @@ function checkListSorted(key) {
 
 // sort shopping list
 function sortList(key) {
+    console.log(key);
     // checking if the shopping list has been previously sorted
     if (checkListSorted(key)) {
         shoppingList.reverse();
@@ -43,8 +44,7 @@ function sortList(key) {
         shoppingList.sort((a, b) => {
             if (a[key].toLowerCase() > b[key].toLowerCase()) {
                 return 1;
-            }
-            else return -1;
+            } else return -1;
         })
     }
     localStorage.setItem("shoppingList", JSON.stringify(shoppingList));

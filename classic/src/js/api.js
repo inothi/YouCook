@@ -76,6 +76,8 @@ function selectedRecipeDetails(id) {
     let selectedRecipeTitle = document.getElementById("selected-recipe-title");
     let selectedRecipeDetails = document.getElementById("selected-recipe-details");
     let selectedRecipeIngredientsTable = document.getElementById("ingredients-table");
+    let selectedRecipeInstructions = document.getElementById("cooking-instructions");
+    let selectedRecipeVideo = document.getElementById("video-instructions");
     axios({
         url: `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
     }).then((response) => {
@@ -83,6 +85,8 @@ function selectedRecipeDetails(id) {
         let recipe = Object.entries(selectedRecipe.meals[0]);
         let recipeIngredients = recipe.filter(([key, value]) => (key.startsWith("strIngredient") && value != null && value != ""));
         let recipeMeasures = recipe.filter(([key, value]) => (key.startsWith("strMeasure") && value != "" && value != null));
+        let recipeVideo = selectedRecipe.meals[0].strYoutube.substring(selectedRecipe.meals[0].strYoutube.indexOf("?") + 3, selectedRecipe.meals[0].strYoutube.length);
+        let recipeInstructions = selectedRecipe.meals[0].strInstructions;
         let flags = flagsUrlArray.filter((country) => {
             return country.strArea == selectedRecipe.meals[0].strArea;
         });
@@ -129,6 +133,16 @@ function selectedRecipeDetails(id) {
                 </tr>`
             }
             checkIsAddedToList();
+            if ((recipeVideo != null) || (recipeVideo != "")) {
+                selectedRecipeVideo.innerHTML = `<iframe src="https://www.youtube.com/embed/${recipeVideo}" frameborder="0" allowfullscreen></iframe>`
+            } else {
+                selectedRecipeVideo.style.display = "none";
+            }
+            if ((recipeInstructions != null) || (recipeInstructions != "")) {
+                selectedRecipeInstructions.innerHTML = `${recipeInstructions}`;
+            } else {
+                selectedRecipeInstructions.style.display = "none";
+            }
         }
     }).catch(function(error) {
         // here will be code for a error message on main page;
@@ -144,10 +158,9 @@ function checkIsAddedToList() {
     let shoppingList = JSON.parse(localStorage.getItem("shoppingList"));
     let ingredientRow = document.getElementById("ingredients-table").children;
     for (let i = 0; i < ingredientRow.length; i++) {
-        let ingredientName = String(ingredientRow[i].children[1].innerHTML.substring(String(ingredientRow[i].children[1].innerHTML.indexOf('>') + 1, 200)));
+        let ingredientName = String(ingredientRow[i].children[1].innerHTML.substring(String(ingredientRow[i].children[1].innerHTML.indexOf('>') + 1, String(ingredientRow[i].children[1].innerHTML.length))));
         for (let j = 0; j < shoppingList.length; j++) {
             if (shoppingList[j].ingredient == ingredientName) {
-
                 ingredientRow[i].children[3].innerHTML = `<span data-shopping="This ingredient has already been added to your shopping list"><i class="fa-solid fa-circle-check margin-both" style="color: var(--color-green)";></i></span>`;
             }
         }

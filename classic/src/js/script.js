@@ -107,39 +107,14 @@ function scrollBtn() {
 function addItemToShoppingList(img, ing, qty, bht, cat) {
     let validate = ingredientsValidation(ing);
     if (validate) {
-        let existingShoppingList = JSON.parse(localStorage.getItem("shoppingList"));
-        if (existingShoppingList == null) {
-            existingShoppingList = [];
+        let shoppingList = JSON.parse(localStorage.getItem("shoppingList"));
+        if (shoppingList == null) {
+            shoppingList = [];
         }
         let image = img;
         let ingredient = ing;
         let quantity = qty;
-        console.log(quantity.length);
-        if (quantity.length == 1) {
-            quantity = Number(quantity);
-        }
-        else if (quantity.length > 2) {
-            quantity = quantity.split(" ")[0];
-            if (quantity.length == 1) {
-                quantity = Number(quantity);
-            }
-            else if (quantity.length == 2) {
-                quantity = Number(quantity);
-            }
-            else if (quantity.includes('/')) {
-                quantity = 1;
-            }
-            else if (quantity.length >= 5) {
-                quantity = 1;
-            }
-            else if (quantity.length >= 3) {
-                quantity = quantity;
-            }
-            else if (quantity.length < 3) {
-                quantity = 1;
-            }
-        }
-        else if (quantity == null) {
+        if ((quantity == null) || (quantity == "")) {
             quantity = 1;
         }
         let category = cat;
@@ -155,17 +130,16 @@ function addItemToShoppingList(img, ing, qty, bht, cat) {
             "bought": bought
         }
         localStorage.setItem("item", JSON.stringify(item));
-        existingShoppingList.push(item);
-        localStorage.setItem("shoppingList", JSON.stringify(existingShoppingList));
+        shoppingList.push(item);
+        localStorage.setItem("shoppingList", JSON.stringify(shoppingList));
         checkIsAddedToList();
     }
 }
 
 
 function ingredientsValidation(ing) {
-    let existingShoppingList = JSON.parse(localStorage.getItem("shoppingList"));
-    if (existingShoppingList == null) return true;
-    let doesItemExist = existingShoppingList.some((elem) => elem.ingredient === ing);
+    if (shoppingList == null) return true;
+    let doesItemExist = shoppingList.some((elem) => elem.ingredient === ing);
     if (doesItemExist) {
         alert("The ingredient you are trying to add already exists in your shopping list");
         return false;
