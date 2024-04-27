@@ -22,10 +22,19 @@ function loadShoppingList() {
 
 // validation if shopping list is sorted
 function checkListSorted(key) {
-    for (let i = 0; i < shoppingList.length - 1; i++) {
-        let a = shoppingList[i][key].toLowerCase();
-        let b = shoppingList[i + 1][key].toLowerCase();
+    let bought = shoppingList.filter(el => el.bought == true);
+    let unBought = shoppingList.filter(el => el.bought == false);
+    for (let i = 0; i < unBought.length - 1; i++) {
+        let a = unBought[i][key].toLowerCase();
+        let b = unBought[i + 1][key].toLowerCase();
         if (a > b) {
+            return false;
+        }
+    }
+    for (let i = 0; i < bought.length - 1; i++) {
+        let y = bought[i][key].toLowerCase();
+        let z = bought[i + 1][key].toLowerCase();
+        if (y > z) {
             return false;
         }
     }
@@ -35,17 +44,28 @@ function checkListSorted(key) {
 
 // sort shopping list
 function sortList(key) {
-    console.log(key);
     // checking if the shopping list has been previously sorted
     if (checkListSorted(key)) {
-        shoppingList.reverse();
+        let bought = shoppingList.filter(el => el.bought == true);
+        let unBought = shoppingList.filter(el => el.bought == false);
+        unBought.reverse();
+        bought.reverse();
+        shoppingList = unBought.concat(bought);
     }
     else {
-        shoppingList.sort((a, b) => {
+        let bought = shoppingList.filter(el => el.bought == true);
+        let unBought = shoppingList.filter(el => el.bought == false);
+        unBought.sort((a, b) => {
             if (a[key].toLowerCase() > b[key].toLowerCase()) {
                 return 1;
             } else return -1;
         })
+        bought.sort((a, b) => {
+            if (a[key].toLowerCase() > b[key].toLowerCase()) {
+                return 1;
+            } else return -1;
+        })
+        shoppingList = unBought.concat(bought);
     }
     localStorage.setItem("shoppingList", JSON.stringify(shoppingList));
     let clearList = document.getElementById("shopping-list");

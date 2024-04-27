@@ -2,6 +2,10 @@
     margin: 0 8px;
 }
 
+.margin-right {
+    margin: 0 8px 0 0;
+}
+
 .sort-list {
     cursor: pointer;
 }
@@ -22,6 +26,19 @@
     }
 }
 
+/* Bootstrap Modal */
+.modal-content {
+    background-color: var(--color-blue-light) !important;
+}
+
+.modal-header {
+    background-color: var(--color-blue) !important;
+    color: var(--color-green) !important;
+}
+
+.close {
+    border-color: #fff !important;
+}
 
 [data-shopping] {
     position: relative;

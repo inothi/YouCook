@@ -130,7 +130,7 @@ function addItemToShoppingList(img, ing, qty, bht, cat) {
             "bought": bought
         }
         localStorage.setItem("item", JSON.stringify(item));
-        shoppingList.push(item);
+        shoppingList.unshift(item);
         localStorage.setItem("shoppingList", JSON.stringify(shoppingList));
         checkIsAddedToList();
     }
