@@ -68,13 +68,6 @@ function updateCategoryPath(id) {
     });
 }
 
-axios({
-    url: "https://www.giantbomb.com/api/company/3010-82/?api_key=2cd5c920197a2b4f0c4a4f9acd7c019c0ad170e6"
-}).then(response => {
-    let data = response.data;
-    console.log(data);
-})
-
 // creating details of selected recipe
 function selectedRecipeDetails(id) {
     let selectedRecipeImage = document.getElementById("selected-recipe-image");
