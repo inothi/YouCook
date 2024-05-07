@@ -3,18 +3,33 @@ let shoppingList = JSON.parse(localStorage.getItem("shoppingList"));
 function loadShoppingList() {
     let shoppingListTable = document.getElementById("shopping-list");
     for (let i = 0; i < shoppingList.length; i++) {
-        shoppingListTable.innerHTML += `
-        <tr>
-            <th class="align-middle" scope="row">${i + 1}</th>
-            <td class="align-middle"><img class="recipe-ingredients-image" src="${shoppingList[i].image}">${shoppingList[i].ingredient}</td>
-            <td class="align-middle">${shoppingList[i].quantity}</td>
-            <td class="align-middle">${shoppingList[i].category}</td>
-            <td class="align-middle text-center">
-                <span data-shopping="Edit product"><i class="fa-solid fa-pen-to-square margin-both"></i></span>
-                <span data-shopping="Delete product"><i onclick="deleteFromShoppingList(${i})" class="fa-solid fa-trash-can margin-both"></i></span>
-                <span data-shopping="Mark as bought"><i onclick="markAsBought(${i})" class="fa-solid fa-circle-check margin-both"></i></span>
-            </td>
-        </tr>`
+        if (window.matchMedia("(pointer: coarse)").matches) {
+            shoppingListTable.innerHTML += `
+            <tr>
+                <th class="align-middle" scope="row">${i + 1}</th>
+                <td class="align-middle"><img class="recipe-ingredients-image" src="${shoppingList[i].image}">${shoppingList[i].ingredient}</td>
+                <td class="align-middle">${shoppingList[i].quantity}</td>
+                <td class="align-middle">${shoppingList[i].category}</td>
+                <td class="align-middle text-center">
+                    <span data-shopping="Edit product"><i class="fa-solid fa-pen-to-square margin-both"></i></span>
+                    <span data-shopping="Delete product"><i onclick="deleteFromShoppingList(${i})" class="fa-solid fa-trash-can margin-both"></i></span>
+                    <span data-shopping="Mark as bought"><i onclick="markAsBought(${i})" class="fa-solid fa-circle-check margin-both"></i></span>
+                </td>
+            </tr>`
+        } else {
+            shoppingListTable.innerHTML += `
+            <tr>
+                <th class="align-middle" scope="row">${i + 1}</th>
+                <td class="align-middle"><img class="recipe-ingredients-image" src="${shoppingList[i].image}">${shoppingList[i].ingredient}</td>
+                <td class="align-middle">${shoppingList[i].quantity}</td>
+                <td class="align-middle">${shoppingList[i].category}</td>
+                <td class="align-middle text-center">
+                    <span data-shopping="Edit product"><i class="fa-solid fa-pen-to-square margin-both"></i></span>
+                    <span data-shopping="Delete product"><i onclick="deleteFromShoppingList(${i})" class="fa-solid fa-trash-can margin-both"></i></span>
+                    <span data-shopping="Mark as bought"><i onclick="markAsBought(${i})" class="fa-solid fa-circle-check margin-both"></i></span>
+                </td>
+            </tr>`
+        }
     }
     checkIsBought();
 }
@@ -137,16 +152,79 @@ function checkIsBought() {
     }
 }
 
+// check is image of ingredient exist
+function checkImage(url) {
+    let img = new Image();
+    img.src = `https://www.themealdb.com/images/ingredients/${url}.png`;
+    if (img.naturalWidth === 0) {
+        return false;
+    } else {
+        return true;
+    }
+}
 
-// list with categories of products
-let foodCategories = [
-    "Foodstuffs",
-    "Pets",
-    "House-cleaning",
-    "Garden & DIY",
-    "Electronics & office",
-    "Beauty & hygiene",
-    "Baby",
-    "Health",
-    "Other"
-]
+
+// add manually new item to shopping list
+function addItemManually() {
+    let itemName = document.getElementById("product-name").value;
+    let itemQty = document.getElementById("product-quantity").value;
+    let itemQtyUnit = document.getElementById("product-quantity-unit").value;
+    let itemQuantity = itemQty + " " + itemQtyUnit;
+    let itemCat = document.getElementById("product-category").value;
+    let itemImg;
+    let imgValidate = checkImage(itemName);
+    if (imgValidate) {
+        itemImg = `https://www.themealdb.com/images/ingredients/${itemName}.png`;
+    } else {
+        itemImg = `./src/assets/img/icons/foodstuffs.png`;
+    }
+    // console.log(itemImg);
+    //     itemImg = `./src/assets/img/icons/foodstuffs.png`;
+    //     // if (itemCat == 'Foodstuffs') {
+    //     //     itemImg = `./src/assets/img/icons/foodstuffs.png`;
+    //     // } else if (itemCat == 'Pets') {
+    //     //     itemImg = `./src/assets/img/icons/pets.png`;
+    //     // } else if (itemCat == 'House-cleaning') {
+    //     //     itemImg = `./src/assets/img/icons/house-cleaning.png`;
+    //     // } else if (itemCat == 'Garden & DIY') {
+    //     //     itemImg = `./src/assets/img/icons/garden.png`;
+    //     // } else if (itemCat == 'Electronics & Office') {
+    //     //     itemImg = `./src/assets/img/icons/electronics.png`;
+    //     // } else if (itemCat == 'Beauty & Hygiene') {
+    //     //     itemImg = `./src/assets/img/icons/beauty.png`;
+    //     // } else if (itemCat == 'Baby') {
+    //     //     itemImg = `./src/assets/img/icons/baby.png`;
+    //     // } else if (itemCat == 'Health') {
+    //     //     itemImg = `./src/assets/img/icons/health.png`;
+    //     // } else {
+    //     //     itemImg = `./src/assets/img/icons/other.png`;
+    //     // }
+    let nameValidate = ingredientsValidation(itemName);
+    if (nameValidate) {
+        let shoppingList = JSON.parse(localStorage.getItem("shoppingList"));
+        if (shoppingList == null) {
+            shoppingList = [];
+        }
+        let image = itemImg;
+        let ingredient = itemName;
+        let quantity = itemQuantity;
+        if (quantity !== Number && quantity <= 0) {
+            console.log("błędna ilość");
+        }
+        let category = itemCat;
+        let bought = false;
+        let item = {
+            "image": image,
+            "ingredient": ingredient,
+            "quantity": quantity,
+            "category": category,
+            "bought": bought
+        }
+        localStorage.setItem("item", JSON.stringify(item));
+        shoppingList.unshift(item);
+        localStorage.setItem("shoppingList", JSON.stringify(shoppingList));
+    }
+    let clearList = document.getElementById("shopping-list");
+    clearList.innerHTML = "";
+    loadShoppingList();
+}

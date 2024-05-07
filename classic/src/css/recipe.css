@@ -154,20 +154,29 @@
     padding-bottom: 56.25%;
 }
 
+@media (pointer: coarse) {
+    [data-tooltip]:hover:before,
+    [data-tooltip]:hover:after {
+        visibility: hidden;
+    }
+    
+    .recipe-table-ingredients {
+        overflow-x: auto;
+    }
+}
 
 @media screen and (max-width: 991px) {
     [data-tooltip]:before {
-        margin-left: -230px;
-        margin-bottom: -45px;
+        margin-left: -200px;
+        margin-bottom: 0px;
     }
 
     [data-tooltip]:after {
-        border-bottom: 5px solid transparent;
-        border-left: 5px solid var(--color-red-light);
+        border-top: 5px solid var(--color-red-light);
         border-right: 5px solid transparent;
-        border-top: 5px solid transparent;
-        bottom: 25%;
-        margin-left: -20px;
+        border-left: 5px solid transparent;
+        bottom: 125%;
+        margin-left: -5px;
     }
 }
 

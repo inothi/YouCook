@@ -82,6 +82,9 @@ function selectedRecipeDetails(id) {
         let selectedRecipe = response.data;
         let recipe = Object.entries(selectedRecipe.meals[0]);
         let recipeIngredients = recipe.filter(([key, value]) => (key.startsWith("strIngredient") && value != null && value != ""));
+        for (let i = 0; i < recipeIngredients.length; i++) {
+            recipeIngredients[i] = recipeIngredients[i][1][0].toUpperCase() + recipeIngredients[i][1].substring(1);
+        }
         let recipeMeasures = recipe.filter(([key, value]) => (key.startsWith("strMeasure") && value != "" && value != null));
         let recipeVideo = selectedRecipe.meals[0].strYoutube.substring(selectedRecipe.meals[0].strYoutube.indexOf("?") + 3, selectedRecipe.meals[0].strYoutube.length);
         let recipeInstructions = selectedRecipe.meals[0].strInstructions;
@@ -125,9 +128,9 @@ function selectedRecipeDetails(id) {
                 selectedRecipeIngredientsTable.innerHTML += `
                 <tr>
                     <th class="align-middle" scope="row">${i + 1}</th>
-                    <td class="align-middle"><img class="recipe-ingredients-image" src="https://www.themealdb.com/images/ingredients/${recipeIngredients[i][1]}.png">${recipeIngredients[i][1]}</td>
+                    <td class="align-middle"><img class="recipe-ingredients-image" src="https://www.themealdb.com/images/ingredients/${recipeIngredients[i]}.png">${recipeIngredients[i]}</td>
                     <td class="align-middle">${recipeMeasures[i][1]}</td>
-                    <td class="align-middle text-center"><span data-tooltip="Add to your shopping list"><i class="fa-solid fa-circle-plus" onClick="addItemToShoppingList('https://www.themealdb.com/images/ingredients/${recipeIngredients[i][1]}.png', '${recipeIngredients[i][1]}', '${recipeMeasures[i][1]}', false)"></span></i></td>
+                    <td class="align-middle text-center"><span data-tooltip="Add to your shopping list"><i class="fa-solid fa-circle-plus" onClick="addItemToShoppingList('https://www.themealdb.com/images/ingredients/${recipeIngredients[i]}.png', '${recipeIngredients[i]}', '${recipeMeasures[i][1]}', false)"></span></i></td>
                 </tr>`
             }
             checkIsAddedToList();
@@ -164,7 +167,6 @@ function checkIsAddedToList() {
         }
     }
 }
-
 
 // load 16 random recipes from api on the main page
 function getRandomRecipes() {
