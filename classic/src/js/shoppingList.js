@@ -1,6 +1,7 @@
 let shoppingList = JSON.parse(localStorage.getItem("shoppingList"));
 
 function loadShoppingList() {
+    shoppingList = JSON.parse(localStorage.getItem("shoppingList"));
     let shoppingListTable = document.getElementById("shopping-list");
     for (let i = 0; i < shoppingList.length; i++) {
         if (window.matchMedia("(pointer: coarse)").matches) {
@@ -152,7 +153,8 @@ function checkIsBought() {
     }
 }
 
-// check is image of ingredient exist
+
+// check if image of ingredient exist
 function checkImage(url) {
     let img = new Image();
     img.src = `https://www.themealdb.com/images/ingredients/${url}.png`;
@@ -171,34 +173,31 @@ function addItemManually() {
     let itemQtyUnit = document.getElementById("product-quantity-unit").value;
     let itemQuantity = itemQty + " " + itemQtyUnit;
     let itemCat = document.getElementById("product-category").value;
-    let itemImg;
+    let itemImg = "";
     let imgValidate = checkImage(itemName);
     if (imgValidate) {
         itemImg = `https://www.themealdb.com/images/ingredients/${itemName}.png`;
     } else {
-        itemImg = `./src/assets/img/icons/foodstuffs.png`;
+        if (itemCat == 'Foodstuffs') {
+            itemImg = `./src/assets/img/icons/foodstuffs.png`;
+        } else if (itemCat == 'Pets') {
+            itemImg = `./src/assets/img/icons/pets.png`;
+        } else if (itemCat == 'House-cleaning') {
+            itemImg = `./src/assets/img/icons/house-cleaning.png`;
+        } else if (itemCat == 'Garden & DIY') {
+            itemImg = `./src/assets/img/icons/garden.png`;
+        } else if (itemCat == 'Electronics & Office') {
+            itemImg = `./src/assets/img/icons/electronics.png`;
+        } else if (itemCat == 'Beauty & Hygiene') {
+            itemImg = `./src/assets/img/icons/beauty.png`;
+        } else if (itemCat == 'Baby') {
+            itemImg = `./src/assets/img/icons/baby.png`;
+        } else if (itemCat == 'Health') {
+            itemImg = `./src/assets/img/icons/health.png`;
+        } else {
+            itemImg = `./src/assets/img/icons/other.png`;
+        }
     }
-    // console.log(itemImg);
-    //     itemImg = `./src/assets/img/icons/foodstuffs.png`;
-    //     // if (itemCat == 'Foodstuffs') {
-    //     //     itemImg = `./src/assets/img/icons/foodstuffs.png`;
-    //     // } else if (itemCat == 'Pets') {
-    //     //     itemImg = `./src/assets/img/icons/pets.png`;
-    //     // } else if (itemCat == 'House-cleaning') {
-    //     //     itemImg = `./src/assets/img/icons/house-cleaning.png`;
-    //     // } else if (itemCat == 'Garden & DIY') {
-    //     //     itemImg = `./src/assets/img/icons/garden.png`;
-    //     // } else if (itemCat == 'Electronics & Office') {
-    //     //     itemImg = `./src/assets/img/icons/electronics.png`;
-    //     // } else if (itemCat == 'Beauty & Hygiene') {
-    //     //     itemImg = `./src/assets/img/icons/beauty.png`;
-    //     // } else if (itemCat == 'Baby') {
-    //     //     itemImg = `./src/assets/img/icons/baby.png`;
-    //     // } else if (itemCat == 'Health') {
-    //     //     itemImg = `./src/assets/img/icons/health.png`;
-    //     // } else {
-    //     //     itemImg = `./src/assets/img/icons/other.png`;
-    //     // }
     let nameValidate = ingredientsValidation(itemName);
     if (nameValidate) {
         let shoppingList = JSON.parse(localStorage.getItem("shoppingList"));
@@ -223,7 +222,7 @@ function addItemManually() {
         localStorage.setItem("item", JSON.stringify(item));
         shoppingList.unshift(item);
         localStorage.setItem("shoppingList", JSON.stringify(shoppingList));
-    }
+    };
     let clearList = document.getElementById("shopping-list");
     clearList.innerHTML = "";
     loadShoppingList();

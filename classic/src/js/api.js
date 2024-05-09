@@ -37,7 +37,7 @@ for (let i = 52764; i <= 53083; i++) {
 }
 
 
-// check is url is main page
+// check current url
 (function checkUrl() {
     if (window.location.href.indexOf('index.html') > -1) {
         getRandomRecipes();
