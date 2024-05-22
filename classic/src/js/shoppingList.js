@@ -12,7 +12,7 @@ function loadShoppingList() {
                 <td class="align-middle">${shoppingList[i].quantity}</td>
                 <td class="align-middle">${shoppingList[i].category}</td>
                 <td class="align-middle text-center">
-                    <span data-shopping="Edit product"><i class="fa-solid fa-pen-to-square margin-both"></i></span>
+                    <span data-shopping="Edit product"><i onclick="editItemOnShoppingList(${i})" data-toggle="modal" data-target="#exampleModal" data-whatever="Edit" class="fa-solid fa-pen-to-square margin-both"></i></span>
                     <span data-shopping="Delete product"><i onclick="deleteFromShoppingList(${i})" class="fa-solid fa-trash-can margin-both"></i></span>
                     <span data-shopping="Mark as bought"><i onclick="markAsBought(${i})" class="fa-solid fa-circle-check margin-both"></i></span>
                 </td>
@@ -25,7 +25,7 @@ function loadShoppingList() {
                 <td class="align-middle">${shoppingList[i].quantity}</td>
                 <td class="align-middle">${shoppingList[i].category}</td>
                 <td class="align-middle text-center">
-                    <span data-shopping="Edit product"><i class="fa-solid fa-pen-to-square margin-both"></i></span>
+                    <span data-shopping="Edit product"><i onclick="editItemOnShoppingList(${i})" data-toggle="modal" data-target="#exampleModal" data-whatever="Add" class="fa-solid fa-pen-to-square margin-both"></i></span>
                     <span data-shopping="Delete product"><i onclick="deleteFromShoppingList(${i})" class="fa-solid fa-trash-can margin-both"></i></span>
                     <span data-shopping="Mark as bought"><i onclick="markAsBought(${i})" class="fa-solid fa-circle-check margin-both"></i></span>
                 </td>
@@ -154,28 +154,26 @@ function checkIsBought() {
 }
 
 
-// check if image of ingredient exist
-function checkImage(url) {
-    let img = new Image();
-    img.src = `https://www.themealdb.com/images/ingredients/${url}.png`;
-    if (img.naturalWidth === 0) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-
 // add manually new item to shopping list
-function addItemManually() {
+async function addItemManually() {
     let itemName = document.getElementById("product-name").value;
     let itemQty = document.getElementById("product-quantity").value;
     let itemQtyUnit = document.getElementById("product-quantity-unit").value;
     let itemQuantity = itemQty + " " + itemQtyUnit;
     let itemCat = document.getElementById("product-category").value;
+    // check if image exist
+    let itemImgStatus = await axios({
+        url: `https://www.themealdb.com/images/ingredients/${itemName}.png`
+    }).then((response) => {
+        if (response.status === 200) {
+            return true;
+        } else return false;
+    }).catch(() => {
+        console.clear();
+        return false;
+    })
     let itemImg = "";
-    let imgValidate = checkImage(itemName);
-    if (imgValidate) {
+    if (itemImgStatus === true) {
         itemImg = `https://www.themealdb.com/images/ingredients/${itemName}.png`;
     } else {
         if (itemCat == 'Foodstuffs') {
@@ -197,7 +195,7 @@ function addItemManually() {
         } else {
             itemImg = `./src/assets/img/icons/other.png`;
         }
-    }
+    };
     let nameValidate = ingredientsValidation(itemName);
     if (nameValidate) {
         let shoppingList = JSON.parse(localStorage.getItem("shoppingList"));
@@ -223,7 +221,82 @@ function addItemManually() {
         shoppingList.unshift(item);
         localStorage.setItem("shoppingList", JSON.stringify(shoppingList));
     };
+    clearModalForm();
     let clearList = document.getElementById("shopping-list");
     clearList.innerHTML = "";
     loadShoppingList();
+}
+
+
+// edit items added to shopping list
+function editItemOnShoppingList(id) {
+    // modal label
+    let modalLabel = document.getElementById("exampleModalLabel");
+    modalLabel.innerHTML = "Edit item on the shopping list";
+    // change 'add' button to 'save'
+    let editFormBtn = document.getElementById("modalFormBtn");
+    editFormBtn.innerHTML = "Save changes";
+    // change onclick function
+    editFormBtn.setAttribute("onclick", `saveEditingItem(${id})`);
+    // editing item name
+    var modalItemName = document.getElementById("product-name");
+    let shoppingListTable = document.getElementById("shopping-list");
+    let listItemName = shoppingListTable.children[id].children[1].innerHTML.substring(String(shoppingListTable.children[id].children[1].innerHTML.indexOf('>') + 1, String(shoppingListTable.children[id].children[1].innerHTML.length)));
+    modalItemName.value = listItemName;
+    // editing item quantity
+    var modalItemQty = document.getElementById("product-quantity");
+    var listItemQty = Number(shoppingListTable.children[id].children[2].innerHTML.split(" ")[0]);
+    modalItemQty.value = listItemQty;
+    // editing item unit
+    var modalItemUnit = document.getElementById("product-quantity-unit");
+    let listItemUnit = String(shoppingListTable.children[id].children[2].innerHTML.split(" ")[1]);
+    modalItemUnit.value = listItemUnit;
+    // editing item category
+    var modalItemCategory = document.getElementById("product-category");
+    let listItemCategory = String(shoppingListTable.children[id].children[3].innerHTML);
+    if (listItemCategory.split(" ").length > 1) {
+        listItemCategory = String(listItemCategory.split(" ")[0].concat(" & ").concat(listItemCategory.split(" ")[2]));
+    }
+    modalItemCategory.value = listItemCategory;
+}
+
+
+// validation if modal form is correct
+function validateForm() {
+    console.log("Zmieniono wpis")
+}
+
+
+// save changes in selected item on the shopping list
+function saveEditingItem(id) {
+    // get shopping list from localStorage
+    let editedItem = {
+        "image": image,
+        "ingredient": modalItemName,
+        "quantity": modalItemQty,
+        "category": modalItemCategory,
+        "bought": bought
+    }
+}
+
+
+// change modal label, button and clear form
+function modalBtn() {
+    // modal label
+    let modalLabel = document.getElementById("exampleModalLabel");
+    modalLabel.innerHTML = "Add new item to the shopping list";
+    // change 'add' button to 'save'
+    let editFormBtn = document.getElementById("modalFormBtn");
+    editFormBtn.innerHTML = "Add item";
+}
+
+
+// clear modal form
+function clearModalForm() {
+    let modalItemName = document.getElementById("product-name");
+    modalItemName.value = "";
+    let modalItemQty = document.getElementById("product-quantity");
+    modalItemQty.value = "";
+    let modalItemUnit = document.getElementById("product-quantity-unit");
+    modalItemUnit.value = "";
 }

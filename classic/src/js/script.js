@@ -80,7 +80,13 @@ function changeDisplayMode() {
 // load more recipes by scrolling to the bottom of the website
 window.onscroll = function() {
     // check url is main page
-    if (window.location.href.indexOf('index.html') > -1) {
+    if (window.location.href.indexOf('search') > -1) {
+        return false;
+    }
+    else if (window.location.href.indexOf('area') > -1) {
+        return false;
+    }
+    else if (window.location.href.indexOf('index.html') > -1) {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
             getRandomRecipes();
         }

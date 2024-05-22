@@ -39,7 +39,13 @@ for (let i = 52764; i <= 53083; i++) {
 
 // check current url
 (function checkUrl() {
-    if (window.location.href.indexOf('index.html') > -1) {
+    if (window.location.href.indexOf('search') > -1) {
+        searchResults();
+    }
+    else if (window.location.href.indexOf('area') > -1) {
+        areaRecipes();
+    }
+    else if ((window.location.href.indexOf('index.html') > -1) && (window.location.href.indexOf('search')) == -1) {
         getRandomRecipes();
     }
     else if (window.location.href.indexOf('recipes_details.html') > -1) {
@@ -67,6 +73,7 @@ function updateCategoryPath(id) {
             <span><a href="#">${recipes.meals[0].strMeal}</a></span>`;
     });
 }
+
 
 // creating details of selected recipe
 function selectedRecipeDetails(id) {
@@ -107,7 +114,7 @@ function selectedRecipeDetails(id) {
             selectedRecipeDetails.innerHTML += `
                 <h4>Specialty of cuisine:</h4>
                 <div class="img-cat">
-                    <a class="recipes-links" href="#">
+                    <a class="recipes-links" href="./index.html?area=${selectedRecipe.meals[0].strArea}">
                         <img 
                             class="country-image" 
                             src="https://www.themealdb.com/images/icons/flags/big/64/${flags[0].strAreaUrl}.png">
@@ -167,6 +174,7 @@ function checkIsAddedToList() {
         }
     }
 }
+
 
 // load 16 random recipes from api on the main page
 function getRandomRecipes() {

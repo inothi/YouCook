@@ -22,13 +22,6 @@ function changeClasses() {
         }
         blink.classList.remove("blinking-link-dark");
         blink.classList.add("blinking-link-light");
-        dropdownMenu.classList.remove("menu-custom-dark");    
-        dropdownMenu.classList.add("menu-custom-light");
-        let dropdownItems = dropdownMenu.children;
-        for (let i = 0; i < dropdownItems.length; i++) {
-            dropdownItems[i].classList.remove("item-custom-dark");
-            dropdownItems[i].classList.add("item-custom-light");
-        }
     }
     else {
         for (let i = 0; i < navbarLinks.length; i++) {
@@ -37,12 +30,5 @@ function changeClasses() {
         }
         blink.classList.remove("blinking-link-light");
         blink.classList.add("blinking-link-dark");
-        dropdownMenu.classList.remove("menu-custom-light");    
-        dropdownMenu.classList.add("menu-custom-dark");
-        let dropdownItems = dropdownMenu.children;
-        for (let i = 0; i < dropdownItems.length; i++) {
-            dropdownItems[i].classList.remove("item-custom-light");
-            dropdownItems[i].classList.add("item-custom-dark");
-        }
     }
 }

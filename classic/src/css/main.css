@@ -103,6 +103,24 @@ main {
     max-width: 1200px !important;
 }
 
+/* search form */
+.search-box {
+    display: flex;
+    justify-content: center;
+    margin: 25px 0 75px 0;
+}
+
+.form-control {
+    &:focus {
+        border-color: var(--color-red-light);
+        box-shadow: 0 0 0 2px var(--color-red-light-light);
+    }
+}
+
+.search {
+    width: 60% !important;
+}
+
 .main-food-table {
     position: unset;
     overflow: hidden;
@@ -381,5 +399,16 @@ main {
             transform: scale(1.2);
             top: -600px;
         }
+    }
+}
+
+@media screen and (max-width: 575px) {
+    .form-inline,
+    .form-group {
+        display: flex !important;
+        flex: 0 0 auto;
+        flex-flow: row wrap !important;
+        align-items: center !important;
+        margin-bottom: 40px;
     }
 }
