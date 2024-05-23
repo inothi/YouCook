@@ -58,6 +58,9 @@ for (let i = 52764; i <= 53083; i++) {
     else if (window.location.href.indexOf('shopping_list.html') > -1 ) {
         loadShoppingList();
     }
+    else if (window.location.href.indexOf('favourite_recipes.html') > -1 ) {
+        loadFavouriteRecipes();
+    }
 }());
 
 
@@ -178,6 +181,18 @@ function checkIsAddedToList() {
 }
 
 
+// validate if recipes was added to favourite
+function checkIsFav(el) {
+    let addedItem = document.getElementById(el);
+    let favouriteRecipes = JSON.parse(localStorage.getItem("favRecipes"));
+    let favItem = Number(el.slice(el.indexOf("heart-") + 6, el.indexOf("heart-").length));
+    if (favouriteRecipes.includes(favItem)) {
+        addedItem.classList.remove("fa-regular");
+        addedItem.classList.add("fa-solid");
+    }
+}
+
+
 // load 16 random recipes from api on the main page
 function getRandomRecipes() {
     let mainFoodTable = document.getElementById("main-food-table");
@@ -187,16 +202,88 @@ function getRandomRecipes() {
         }).then((response) => {
             let randomRecipe = response.data;
             if (localStorage.getItem("inputChecked") == "true") {
-                mainFoodTable.innerHTML += `<a class="col-lg-3 col-md-4 col-sm-6 col-12 main-food-table food-table-light" href="./recipes_details.html?id=${randomRecipe.meals[0].idMeal}">` 
-                + '<div class="food-name">' + randomRecipe.meals[0].strMeal + '</div>'
-                + '<img src="' + randomRecipe.meals[0].strMealThumb + '">'
-                + '</a>'
+                mainFoodTable.innerHTML += `
+                <div class="col-lg-3 col-md-4 col-sm-6 col-12 main-food-table food-table-light">
+                    <a href="./recipes_details.html?id=${randomRecipe.meals[0].idMeal}"> 
+                        <div class="food-name">${randomRecipe.meals[0].strMeal}</div>
+                        <img src="${randomRecipe.meals[0].strMealThumb}">
+                    </a>
+                    <div class="add-to-fav">
+                        <i class="fa-regular fa-heart fa-2xl" onClick="addToFav('heart-${randomRecipe.meals[0].idMeal}')" id="heart-${randomRecipe.meals[0].idMeal}"></i>
+                    </div>
+                </div>`
             }
             else {
-                mainFoodTable.innerHTML += `<a class="col-lg-3 col-md-4 col-sm-6 col-12 main-food-table food-table-dark" href="./recipes_details.html?id=${randomRecipe.meals[0].idMeal}">` 
-                + '<div class="food-name">' + randomRecipe.meals[0].strMeal + '</div>'
-                + '<img src="' + randomRecipe.meals[0].strMealThumb + '">'
-                + '</a>'
+                mainFoodTable.innerHTML += `
+                <div class="col-lg-3 col-md-4 col-sm-6 col-12 main-food-table food-table-dark">
+                    <a href="./recipes_details.html?id=${randomRecipe.meals[0].idMeal}"> 
+                        <div class="food-name">${randomRecipe.meals[0].strMeal}</div>
+                        <img src="${randomRecipe.meals[0].strMealThumb}">
+                    </a>
+                    <div class="add-to-fav">
+                        <i class="fa-regular fa-heart fa-2xl" onClick="addToFav('heart-${randomRecipe.meals[0].idMeal}')" id="heart-${randomRecipe.meals[0].idMeal}"></i>
+                    </div>
+                </div>`
+            }
+            checkIsFav(`heart-${randomRecipe.meals[0].idMeal}`);
+        }).catch(function(error) {
+            // here will be code for a error message on main page;
+        }).finally(function() {
+            // here will be code for a loading icon;
+        });
+    }
+};
+
+
+// add favourite recipes to localStorage array
+function addToFav(el) {
+    let favouriteRecipes = JSON.parse(localStorage.getItem("favRecipes"));
+    if (favouriteRecipes == null) {
+        favouriteRecipes = [];
+    }
+    let favItem = Number(el.slice(el.indexOf("heart-") + 6, el.indexOf("heart-").length));
+    // validation if recipes exist on favourites
+    if (!(favouriteRecipes.includes(favItem))) {
+        localStorage.setItem("favItem", JSON.stringify(favItem));
+        favouriteRecipes.push(favItem);
+        localStorage.setItem("favRecipes", JSON.stringify(favouriteRecipes));
+    }
+    checkIsFav(el);
+}
+
+
+// load favourite recipes
+function loadFavouriteRecipes() {
+    let mainFoodTable = document.getElementById("main-food-table");
+    let favRecipesArray = JSON.parse(localStorage.getItem("favRecipes"));
+    for (let i = 0; i < favRecipesArray.length; i++) {
+        axios({
+            url: `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${favRecipesArray[i]}`
+        }).then((response) => {
+            let randomRecipe = response.data;
+            if (localStorage.getItem("inputChecked") == "true") {
+                mainFoodTable.innerHTML += `
+                <div class="col-lg-3 col-md-4 col-sm-6 col-12 main-food-table food-table-light">
+                    <a href="./recipes_details.html?id=${randomRecipe.meals[0].idMeal}"> 
+                        <div class="food-name">${randomRecipe.meals[0].strMeal}</div>
+                        <img src="${randomRecipe.meals[0].strMealThumb}">
+                    </a>
+                    <div class="add-to-fav">
+                        <i class="fa-regular fa-heart fa-2xl" onClick="addToFav('heart-${randomRecipe.meals[0].idMeal}')" id="heart-${randomRecipe.meals[0].idMeal}"></i>
+                    </div>
+                </div>`
+            }
+            else {
+                mainFoodTable.innerHTML += `
+                <div class="col-lg-3 col-md-4 col-sm-6 col-12 main-food-table food-table-dark">
+                    <a href="./recipes_details.html?id=${randomRecipe.meals[0].idMeal}"> 
+                        <div class="food-name">${randomRecipe.meals[0].strMeal}</div>
+                        <img src="${randomRecipe.meals[0].strMealThumb}">
+                    </a>
+                    <div class="add-to-fav">
+                        <i class="fa-regular fa-heart fa-2xl" onClick="addToFav('heart-${randomRecipe.meals[0].idMeal}')" id="heart-${randomRecipe.meals[0].idMeal}"></i>
+                    </div>
+                </div>`
             }
         }).catch(function(error) {
             // here will be code for a error message on main page;

@@ -1,3 +1,35 @@
+// array of countries
+const countiresArray = [
+    {strArea: "American", strAreaUrl: "us"},
+    {strArea: "British", strAreaUrl: "gb"},
+    {strArea: "Canadian", strAreaUrl: "ca"},
+    {strArea: "Chinese", strAreaUrl: "cn"},
+    {strArea: "Croatian", strAreaUrl: "hr"},
+    {strArea: "Dutch", strAreaUrl: "nl"},
+    {strArea: "Egyptian", strAreaUrl: "eg"},
+    {strArea: "Filipino", strAreaUrl: "ph"},
+    {strArea: "French", strAreaUrl: "fr"},
+    {strArea: "Greek", strAreaUrl: "gr"},
+    {strArea: "Indian", strAreaUrl: "in"},
+    {strArea: "Irish", strAreaUrl: "ie"},
+    {strArea: "Italian", strAreaUrl: "it"},
+    {strArea: "Jamaican", strAreaUrl: "jm"},
+    {strArea: "Japanese", strAreaUrl: "jp"},
+    {strArea: "Kenyan", strAreaUrl: "kn"},
+    {strArea: "Malaysian", strAreaUrl: "my"},
+    {strArea: "Mexican", strAreaUrl: "mx"},
+    {strArea: "Moroccan", strAreaUrl: "ma"},
+    {strArea: "Polish", strAreaUrl: "pl"},
+    {strArea: "Portuguese", strAreaUrl: "pt"},
+    {strArea: "Russian", strAreaUrl: "ru"},
+    {strArea: "Spanish", strAreaUrl: "es"},
+    {strArea: "Thai", strAreaUrl: "th"},
+    {strArea: "Tunisian", strAreaUrl: "tn"},
+    {strArea: "Turkish", strAreaUrl: "tr"},
+    {strArea: "Vietnamese", strAreaUrl: "vn"}
+];
+
+
 // if search button is click
 if (window.location.href.indexOf('index.html') > -1) {
     let searchBtn = document.getElementById("search-button");
@@ -21,6 +53,72 @@ if (window.location.href.indexOf('index.html') > -1) {
         }
     });
 }
+
+
+if (window.location.href.indexOf("index.html") > -1) {
+    let body = document.querySelector("body");
+    if (body.onload) {
+        addSelectToMainPage();
+    }
+}
+
+
+// main page search by category and country
+function addSelectToMainPage() {
+    let mainPageSelect = document.getElementById("section-title");
+    mainPageSelect.innerHTML = `
+        <div class="wrapper">
+            <h3>Browse by country</h3>
+            <select class="select-area" id="select-area">
+                <option value="" disabled selected>Select country</option>
+            </select>
+        </div>
+        <div class="wrapper">
+            <h3>Browse by category</h3>
+            <select class="select-category" id="select-category">
+                <option value="" disabled selected>Select category</option>
+            </select>
+        </div>`;
+    let selectArea = document.getElementById("select-area");
+    for (let i = 0; i < countiresArray.length; i++) {
+        let optionArea = document.createElement("option");
+        optionArea.innerHTML = countiresArray[i].strArea;
+        optionArea.value = countiresArray[i].strArea;
+        selectArea.appendChild(optionArea);
+    }
+
+    let selectCategory = document.getElementById("select-category");
+    axios({
+        url: `https://www.themealdb.com/api/json/v1/1/categories.php`
+    }).then((response) => {
+        let foodCategories = response.data.categories;
+        for (let i = 0; i < foodCategories.length; i++) {
+            let optionCategory = document.createElement("option");
+            optionCategory.innerHTML = foodCategories[i].strCategory;
+            optionCategory.value = foodCategories[i].strCategory;
+            selectCategory.appendChild(optionCategory);
+        }
+    });
+
+    // select country
+    let selectCountry = document.getElementById("select-area");
+    selectCountry.addEventListener("change", () => {
+        let selectedCountry = selectCountry.value;
+        window.location.href = `./index.html?area=${selectedCountry}`;
+        // reset select before change page
+        selectCountry.selectedIndex = 0;
+    });
+
+    // select category
+    let selectCat = document.getElementById("select-category");
+    selectCat.addEventListener("change", () => {
+        let selectedCat = selectCat.value;
+        window.location.href = `./index.html?category=${selectedCat}`;
+        // reset select before change page
+        selectCat.selectedIndex = 0;
+    });
+}
+
 
 
 // show search results
@@ -134,7 +232,6 @@ function loadCategoryOptions(category) {
         url: `https://www.themealdb.com/api/json/v1/1/categories.php`
     }).then((response) => {
         let foodCategories = response.data.categories;
-        console.log(foodCategories);
         for (let i = 0; i < foodCategories.length; i++) {
             let categoryOption = document.createElement("option");
             categoryOption.innerHTML = foodCategories[i].strCategory;
@@ -142,7 +239,6 @@ function loadCategoryOptions(category) {
             categorySelect.appendChild(categoryOption);
         }
     })
-
 }
 
 

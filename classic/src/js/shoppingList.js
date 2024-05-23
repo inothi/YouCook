@@ -238,6 +238,7 @@ function editItemOnShoppingList(id) {
     editFormBtn.innerHTML = "Save changes";
     // change onclick function
     editFormBtn.setAttribute("onclick", `saveEditingItem(${id})`);
+    editFormBtn.setAttribute("data-dismiss", "modal");
     // editing item name
     var modalItemName = document.getElementById("product-name");
     let shoppingListTable = document.getElementById("shopping-list");
@@ -268,20 +269,70 @@ function validateForm() {
 
 
 // save changes in selected item on the shopping list
-function saveEditingItem(id) {
+async function saveEditingItem(id) {
+    // get edited values from modal
+    let editedName = String(document.getElementById("product-name").value);
+    let editedQty = String(document.getElementById("product-quantity").value);
+    let editedUnit = String(document.getElementById("product-quantity-unit").value);
+    let editedQuantity = String(editedQty.concat(" ", editedUnit));
+    let editedCategory = String(document.getElementById("product-category").value);
     // get shopping list from localStorage
-    let editedItem = {
-        "image": image,
-        "ingredient": modalItemName,
-        "quantity": modalItemQty,
-        "category": modalItemCategory,
-        "bought": bought
+    let shoppingList = JSON.parse(localStorage.getItem("shoppingList"));
+    let getEditingItem = shoppingList[id];
+    // check if image exist
+    let itemImgStatus = await axios({
+        url: `https://www.themealdb.com/images/ingredients/${editedName}.png`
+    }).then((response) => {
+        if (response.status === 200) {
+            return true;
+        } else return false;
+    }).catch(() => {
+        console.clear();
+        return false;
+    })
+    let itemImg = "";
+    if (itemImgStatus === true) {
+        itemImg = `https://www.themealdb.com/images/ingredients/${editedName}.png`;
+    } else {
+        if (editedCategory == 'Foodstuffs') {
+            itemImg = `./src/assets/img/icons/foodstuffs.png`;
+        } else if (editedCategory == 'Pets') {
+            itemImg = `./src/assets/img/icons/pets.png`;
+        } else if (editedCategory == 'House-cleaning') {
+            itemImg = `./src/assets/img/icons/house-cleaning.png`;
+        } else if (editedCategory == 'Garden & DIY') {
+            itemImg = `./src/assets/img/icons/garden.png`;
+        } else if (editedCategory == 'Electronics & Office') {
+            itemImg = `./src/assets/img/icons/electronics.png`;
+        } else if (editedCategory == 'Beauty & Hygiene') {
+            itemImg = `./src/assets/img/icons/beauty.png`;
+        } else if (editedCategory == 'Baby') {
+            itemImg = `./src/assets/img/icons/baby.png`;
+        } else if (editedCategory == 'Health') {
+            itemImg = `./src/assets/img/icons/health.png`;
+        } else {
+            itemImg = `./src/assets/img/icons/other.png`;
+        }
+    };
+    let replaceItem = {
+        "image": itemImg,
+        "ingredient": editedName,
+        "quantity": editedQuantity,
+        "category": editedCategory,
+        "bought": getEditingItem.bought
     }
+    localStorage.setItem("editingItem", JSON.stringify(replaceItem));
+    shoppingList[id] = replaceItem;
+    localStorage.setItem("shoppingList", JSON.stringify(shoppingList));
+    let clearList = document.getElementById("shopping-list");
+    clearList.innerHTML = "";
+    loadShoppingList();
 }
 
 
 // change modal label, button and clear form
 function modalBtn() {
+    clearModalForm();
     // modal label
     let modalLabel = document.getElementById("exampleModalLabel");
     modalLabel.innerHTML = "Add new item to the shopping list";

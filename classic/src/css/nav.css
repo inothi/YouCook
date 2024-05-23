@@ -15,6 +15,7 @@ nav {
 }
 
 .links-dark {
+    font-size: 18px;
     color: #999;
     transition: all .15s ease-in-out;
     border-bottom: 1px solid rgba(145, 164, 55, 0);

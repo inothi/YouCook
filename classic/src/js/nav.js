@@ -13,7 +13,6 @@ function changeClasses() {
     let navbar = document.getElementById("navbar");
     let navbarLinks = navbar.getElementsByTagName("a");
     let blink = document.querySelector('[class *= "blinking-link"]');
-    let dropdownMenu = document.getElementsByClassName("dropdown-menu")[0];
 
     if (localStorage.getItem("inputChecked") == "true") {
         for (let i = 0; i < navbarLinks.length; i++) {
