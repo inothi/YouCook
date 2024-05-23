@@ -34,6 +34,10 @@
     margin: 0 25px 0 0;
 }
 
+.category-image-header {
+    max-width: 128px;
+}
+
 .img-cat {
     display: flex;
     align-items: center;

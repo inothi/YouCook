@@ -86,6 +86,9 @@ window.onscroll = function() {
     else if (window.location.href.indexOf('area') > -1) {
         return false;
     }
+    else if (window.location.href.indexOf('category') > -1) {
+        return false;
+    }
     else if (window.location.href.indexOf('index.html') > -1) {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
             getRandomRecipes();

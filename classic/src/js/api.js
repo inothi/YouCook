@@ -45,6 +45,9 @@ for (let i = 52764; i <= 53083; i++) {
     else if (window.location.href.indexOf('area') > -1) {
         areaRecipes();
     }
+    else if (window.location.href.indexOf('category') > -1) {
+        categoryRecipes();
+    }
     else if ((window.location.href.indexOf('index.html') > -1) && (window.location.href.indexOf('search')) == -1) {
         getRandomRecipes();
     }
@@ -67,9 +70,8 @@ function updateCategoryPath(id) {
         let categoryPath = document.getElementById("category-path");
         categoryPath.innerHTML = `<a href="./index.html"><i class="fa-solid fa-house fa-2xs"></i></a>`;
         categoryPath.innerHTML += `
-            <span><a href="#">Recipes book</a></span>
-            <span><a href="#">All recipes</a></span>
-            <span><a href="#">${recipes.meals[0].strCategory}</a></span>
+            <span><a href="./index.html">All recipes</a></span>
+            <span><a href="./index.html?category=${recipes.meals[0].strCategory}">${recipes.meals[0].strCategory}</a></span>
             <span><a href="#">${recipes.meals[0].strMeal}</a></span>`;
     });
 }
@@ -124,7 +126,7 @@ function selectedRecipeDetails(id) {
             selectedRecipeDetails.innerHTML += `
                 <h4>Recipe category:</h4>
                 <div class="img-cat">
-                    <a class="recipes-links" href="#">
+                    <a class="recipes-links" href="./index.html?category=${selectedRecipe.meals[0].strCategory}">
                         <img 
                             class="category-image" 
                             src="https://www.themealdb.com/images/category/${selectedRecipe.meals[0].strCategory}.png">

@@ -38,6 +38,11 @@ function searchResults() {
             + '<img src="' + searchResult[i].strMealThumb + '">'
             + '</a>'
         }
+        let categoryPath = document.getElementById("category-path");
+        categoryPath.innerHTML = `<a href="./index.html"><i class="fa-solid fa-house fa-2xs"></i></a>`;
+        categoryPath.innerHTML += `
+            <span><a href="./index.html">Search result</a></span>
+            <span><a href="./index.html?search=${foodName}">${foodName.charAt(0).toUpperCase().concat(foodName.substring(1, foodName.length))}</a></span>`;
     }).catch(function(error) {
         // here will be code for a error message on main page;
     }).finally(function() {
@@ -81,6 +86,11 @@ function areaRecipes() {
             + '<img src="' + areaResult[i].strMealThumb + '">'
             + '</a>'
         }
+        let categoryPath = document.getElementById("category-path");
+        categoryPath.innerHTML = `<a href="./index.html"><i class="fa-solid fa-house fa-2xs"></i></a>`;
+        categoryPath.innerHTML += `
+            <span><a href="./index.html">Area select</a></span>
+            <span><a href="./index.html?search=${foodArea}">${foodArea}</a></span>`;
     }).catch(function(error) {
         // here will be code for a error message on main page;
     }).finally(function() {
@@ -88,6 +98,35 @@ function areaRecipes() {
     });
 }
 
+
+// load recipes by category
+function categoryRecipes() {
+    let categoryTitle = document.getElementById("section-title");
+    let mainCategoryFoodTable = document.getElementById("main-food-table");
+    let foodCategory = window.location.href.slice(window.location.href.indexOf('category=') + 9, window.location.href.indexOf('category=').length);
+    categoryTitle.innerHTML = `<h3><img class="category-image-header" src="https://www.themealdb.com/images/category/${foodCategory}.png"> ${foodCategory} cuisine</h3>`;
+    mainCategoryFoodTable.innerHTML = "";
+    axios({
+        url: `https://www.themealdb.com/api/json/v1/1/filter.php?c=${foodCategory}`
+    }).then((response) => {
+        let categoryResult = response.data.meals;
+        for (let i = 0; i < categoryResult.length; i++) {
+            mainCategoryFoodTable.innerHTML += `<a class="col-lg-3 col-md-4 col-sm-6 col-12 main-food-table food-table-dark" href="./recipes_details.html?id=${categoryResult[i].idMeal}">` 
+            + '<div class="food-name">' + categoryResult[i].strMeal + '</div>'
+            + '<img src="' + categoryResult[i].strMealThumb + '">'
+            + '</a>'
+        }
+        let categoryPath = document.getElementById("category-path");
+        categoryPath.innerHTML = `<a href="./index.html"><i class="fa-solid fa-house fa-2xs"></i></a>`;
+        categoryPath.innerHTML += `
+            <span><a href="./index.html">Category select</a></span>
+            <span><a href="./index.html?category=${foodCategory}">${foodCategory}</a></span>`;
+    }).catch(function(error) {
+        // here will be code for a error message on main page;
+    }).finally(function() {
+        // here will be code for a loading icon;
+    });
+}
 
 
 function getRandomRecipes() {
