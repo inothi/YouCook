@@ -66,6 +66,20 @@ function search() {
 }
 
 
+// get options for areaRecipes select
+function loadAreaOptions(country) {
+    let areaSelect = document.getElementById("select-area");
+    for (let i = 0; i < flagsUrlArray.length; i++) {
+        if (flagsUrlArray[i].strArea !== country) {
+            let areaOption = document.createElement("option");
+            areaOption.innerHTML = flagsUrlArray[i].strArea;
+            areaOption.value = flagsUrlArray[i].strArea;
+            areaSelect.appendChild(areaOption);
+        }
+    }
+}
+
+
 // load recipes by area
 function areaRecipes() {
     let areaTitle = document.getElementById("section-title");
@@ -74,7 +88,13 @@ function areaRecipes() {
     let flag = flagsUrlArray.filter((country) => {
         return country.strArea == foodArea;
     });
-    areaTitle.innerHTML = `<h3><img src="https://www.themealdb.com/images/icons/flags/big/64/${flag[0].strAreaUrl}.png"> ${foodArea} cuisine</h3>`;
+    areaTitle.innerHTML = `
+        <h3>
+            <img src="https://www.themealdb.com/images/icons/flags/big/64/${flag[0].strAreaUrl}.png"> ${foodArea} cuisine
+        </h3>
+        <select class="select-area" id="select-area">
+            <option value="" disabled selected>Change country</option>
+        </select>`;
     mainAreaFoodTable.innerHTML = "";
     axios({
         url: `https://www.themealdb.com/api/json/v1/1/filter.php?a=${foodArea}`
@@ -96,6 +116,33 @@ function areaRecipes() {
     }).finally(function() {
         // here will be code for a loading icon;
     });
+    loadAreaOptions(foodArea);
+        
+    // change country
+    let changeCountry = document.getElementById("select-area");
+    changeCountry.addEventListener("change", () => {
+        let newSelectedCountry = changeCountry.value;
+        window.location.href = `./index.html?area=${newSelectedCountry}`;
+    })
+}
+
+
+// get options for categoryRecipes select
+function loadCategoryOptions(category) {
+    let categorySelect = document.getElementById("select-category");
+    axios({
+        url: `https://www.themealdb.com/api/json/v1/1/categories.php`
+    }).then((response) => {
+        let foodCategories = response.data.categories;
+        console.log(foodCategories);
+        for (let i = 0; i < foodCategories.length; i++) {
+            let categoryOption = document.createElement("option");
+            categoryOption.innerHTML = foodCategories[i].strCategory;
+            categoryOption.value = foodCategories[i].strCategory;
+            categorySelect.appendChild(categoryOption);
+        }
+    })
+
 }
 
 
@@ -104,7 +151,13 @@ function categoryRecipes() {
     let categoryTitle = document.getElementById("section-title");
     let mainCategoryFoodTable = document.getElementById("main-food-table");
     let foodCategory = window.location.href.slice(window.location.href.indexOf('category=') + 9, window.location.href.indexOf('category=').length);
-    categoryTitle.innerHTML = `<h3><img class="category-image-header" src="https://www.themealdb.com/images/category/${foodCategory}.png"> ${foodCategory} cuisine</h3>`;
+    categoryTitle.innerHTML = `
+        <h3>
+            <img class="category-image-header" src="https://www.themealdb.com/images/category/${foodCategory}.png"> ${foodCategory} category
+        </h3>
+        <select class="select-category" id="select-category">
+            <option value="" disabled selected>Change category</option>
+        </select>`;
     mainCategoryFoodTable.innerHTML = "";
     axios({
         url: `https://www.themealdb.com/api/json/v1/1/filter.php?c=${foodCategory}`
@@ -126,6 +179,14 @@ function categoryRecipes() {
     }).finally(function() {
         // here will be code for a loading icon;
     });
+    loadCategoryOptions();
+
+    // change category
+    let changeCategory = document.getElementById("select-category");
+    changeCategory.addEventListener("change", () => {
+        let newSelectedCategory = changeCategory.value;
+        window.location.href = `./index.html?category=${newSelectedCategory}`;
+    })
 }
 
 
