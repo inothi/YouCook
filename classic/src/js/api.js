@@ -268,8 +268,8 @@ function loadFavouriteRecipes() {
                         <div class="food-name">${randomRecipe.meals[0].strMeal}</div>
                         <img src="${randomRecipe.meals[0].strMealThumb}">
                     </a>
-                    <div class="add-to-fav">
-                        <i class="fa-regular fa-heart fa-2xl" onClick="addToFav('heart-${randomRecipe.meals[0].idMeal}')" id="heart-${randomRecipe.meals[0].idMeal}"></i>
+                    <div class="remove-from-fav">
+                        <i class="fa-solid fa-heart fa-2xl" onClick="removeFromFav(${i})" id="heart-${randomRecipe.meals[0].idMeal}"></i>
                     </div>
                 </div>`
             }
@@ -280,8 +280,8 @@ function loadFavouriteRecipes() {
                         <div class="food-name">${randomRecipe.meals[0].strMeal}</div>
                         <img src="${randomRecipe.meals[0].strMealThumb}">
                     </a>
-                    <div class="add-to-fav">
-                        <i class="fa-regular fa-heart fa-2xl" onClick="addToFav('heart-${randomRecipe.meals[0].idMeal}')" id="heart-${randomRecipe.meals[0].idMeal}"></i>
+                    <div class="remove-from-fav">
+                        <i class="fa-solid fa-heart fa-2xl" onClick="removeFromFav(${i})" id="heart-${randomRecipe.meals[0].idMeal}"></i>
                     </div>
                 </div>`
             }
@@ -292,3 +292,26 @@ function loadFavouriteRecipes() {
         });
     }
 };
+
+
+// remove favourite recipes from localStorage array
+function removeFromFav(el) {
+    let favouriteRecipes = JSON.parse(localStorage.getItem("favRecipes"));
+    favouriteRecipes.splice(el, 1);
+    localStorage.setItem("favRecipes", JSON.stringify(favouriteRecipes));
+    let clearList = document.getElementById("main-food-table");
+    clearList.innerHTML = "";
+    loadFavouriteRecipes();
+}
+
+
+// 
+document.addEventListener("DOMContentLoaded", () => {
+    let favIcon = document.querySelectorAll(".remove-from-fav");
+    favIcon.forEach((heartBtn) => {
+        heartBtn.addEventListener("mouseover", () => {
+            console.log("yeah");
+        })
+    })
+    console.log(favIcon);
+})

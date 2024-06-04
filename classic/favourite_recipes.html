@@ -35,10 +35,10 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav text-center">
                     <li class="nav-item">
-                        <a class="nav-link links-dark active-link" onclick="activeLink(this)" href="./index.html">Home</a>
+                        <a class="nav-link links-dark" onclick="activeLink(this)" href="./index.html">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link links-dark" onclick="activeLink(this)" href="favourite_recipes.html">My recipes</a>
+                        <a class="nav-link links-dark active-link" onclick="activeLink(this)" href="favourite_recipes.html">My recipes</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link links-dark" onclick="activeLink(this)" href="./shopping_list.html">Shopping list</a>
@@ -52,6 +52,7 @@
         <div class="headlining" id="headlining">
             <div class="category-path col align-items-center" id="category-path">
                 <a href="./index.html"><i class="fa-solid fa-house fa-2xs"></i></a>
+                <span><a href="./favourite_recipes.html">Favourite recipes</a></span>
                 <!-- put here span to create category path -->
             </div>
         </div>
@@ -95,13 +96,7 @@
         <div class="carousel-border-bottom"></div>
         <div class="main-border">
             <div class="container">
-                <div class="search-box row form-inline">
-                    <div class="form-group col-12 justify-content-center">
-                        <input type="text" class="form-control search margin-right" id="search-meals" placeholder="Search by food name...">
-                        <button type="button" class="btn btn-primary" id="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
-                    </div>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-12 recipe-header-title" id="section-title"></div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12 recipe-header-title" id="section-title"><h3>My favourite recipes</h3></div>
                 <div class="row g-3" id="main-food-table"></div>
             </div>
         </div>

@@ -22,7 +22,7 @@
     color: #666;
 
     img {
-        filter: grayscale(1);
+        filter: grayscale(1) brightness(50%);
     }
 }
 
