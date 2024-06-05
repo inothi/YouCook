@@ -150,7 +150,6 @@ function ingredientsValidation(ing) {
     if (shoppingList == null) return true;
     let doesItemExist = shoppingList.some((elem) => elem.ingredient === ing);
     if (doesItemExist) {
-        alert("The ingredient you are trying to add already exists in your shopping list");
         return false;
     }
     return true;

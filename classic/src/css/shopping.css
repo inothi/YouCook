@@ -58,6 +58,26 @@
     }
 }
 
+.form-group span {
+    position: absolute;
+    bottom: 25px;
+    right: 30px;
+    font-size: 14px;
+    color: red;
+}
+
+.valid {
+    color: var(--color-green);
+}
+
+input::-webkit-calendar-picker-indicator {
+    display: none !important;
+}
+
+input {
+    caret-color: #000;
+}
+
 [data-shopping] {
     position: relative;
     z-index: 2;

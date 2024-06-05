@@ -196,8 +196,9 @@ async function addItemManually() {
             itemImg = `./src/assets/img/icons/other.png`;
         }
     };
-    let nameValidate = ingredientsValidation(itemName);
-    if (nameValidate) {
+    if ((validateProductName(itemName) == false) || (validateProductQuantity(itemQty) == false) || (validateProductQuantityUnit(itemQtyUnit) == false)) {
+        return false;
+    } else {
         let shoppingList = JSON.parse(localStorage.getItem("shoppingList"));
         if (shoppingList == null) {
             shoppingList = [];
@@ -205,9 +206,6 @@ async function addItemManually() {
         let image = itemImg;
         let ingredient = itemName;
         let quantity = itemQuantity;
-        if (quantity !== Number && quantity <= 0) {
-            console.log("błędna ilość");
-        }
         let category = itemCat;
         let bought = false;
         let item = {
@@ -220,7 +218,7 @@ async function addItemManually() {
         localStorage.setItem("item", JSON.stringify(item));
         shoppingList.unshift(item);
         localStorage.setItem("shoppingList", JSON.stringify(shoppingList));
-    };
+    }
     clearModalForm();
     let clearList = document.getElementById("shopping-list");
     clearList.innerHTML = "";
@@ -264,7 +262,8 @@ function editItemOnShoppingList(id) {
 
 // validation if modal form is correct
 function validateForm() {
-    console.log("Zmieniono wpis")
+
+    console.log("Zmieniono wpis");
 }
 
 
@@ -329,6 +328,7 @@ async function saveEditingItem(id) {
     loadShoppingList();
     let editFormBtn = document.getElementById("modalFormBtn");
     editFormBtn.setAttribute("onclick", "addItemManually()");
+    editFormBtn.removeAttribute("data-dismiss", "modal");
 }
 
 
@@ -341,15 +341,68 @@ function modalBtn() {
     // change 'save' button to 'add item'
     let editFormBtn = document.getElementById("modalFormBtn");
     editFormBtn.innerHTML = "Add item";
+    validateProductName();
+    validateProductQuantity();
+    validateProductQuantityUnit();
 }
+
+
+// modal form validation
+let productNameError = document.getElementById("product-name-error");
+let productQuantityError = document.getElementById("product-quantity-error");
+let productQuantityUnitError = document.getElementById("product-quantity-unit-error");
 
 
 // clear modal form
 function clearModalForm() {
+    productNameError.innerHTML = null;
+    productQuantityError.innerHTML = null;
+    productQuantityUnitError.innerHTML = null;
     let modalItemName = document.getElementById("product-name");
-    modalItemName.value = "";
+    modalItemName.value = null;
     let modalItemQty = document.getElementById("product-quantity");
-    modalItemQty.value = "";
+    modalItemQty.value = null;
     let modalItemUnit = document.getElementById("product-quantity-unit");
-    modalItemUnit.value = "";
+    modalItemUnit.value = null;
+}
+
+
+function validateProductName() {
+    let productName = document.getElementById("product-name").value;
+    if (productName.length < 3) {
+        productNameError.innerHTML = "min. 3 signs required";
+        return false;
+    }
+    if (ingredientsValidation(productName) == false) {
+        productNameError.innerHTML = "exist on the list";
+        return false;
+    }
+    productNameError.innerHTML = '<i class="fa-solid fa-circle-check valid"></i>'
+    return true;
+}
+
+
+function validateProductQuantity() {
+    let productQuantity = document.getElementById("product-quantity").value;
+    if (productQuantity.length == 0) {
+        productQuantityError.innerHTML = "more than 0 required";
+        return false;
+    }
+    else if (!productQuantity.match(/^\d+$/g)) {
+        productQuantityError.innerHTML = "only digits allowed";
+        return false;
+    }
+    productQuantityError.innerHTML = '<i class="fa-solid fa-circle-check valid"></i>'
+    return true;
+}
+
+
+function validateProductQuantityUnit() {
+    let productQuantityUnit = document.getElementById("product-quantity-unit").value;
+    if (productQuantityUnit.length == 0) {
+        productQuantityUnitError.innerHTML = "min. 1 sign required";
+        return false;
+    }
+    productQuantityUnitError.innerHTML = '<i class="fa-solid fa-circle-check valid"></i>'
+    return true;
 }

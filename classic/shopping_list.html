@@ -131,7 +131,8 @@
                                                     <form>
                                                         <div class="form-group">
                                                             <label for="product-name" class="col-form-label">Product name:</label>
-                                                            <input type="text" class="form-control" id="product-name">
+                                                            <input type="text" class="form-control" id="product-name" onkeyup="validateProductName()" required>
+                                                            <span id="product-name-error"></span>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -139,7 +140,8 @@
                                                     <form>
                                                         <div class="form-group">
                                                             <label for="product-quantity" class="col-form-label">Quantity:</label>
-                                                            <input type="number" class="form-control" id="product-quantity">
+                                                            <input type="text" class="form-control" id="product-quantity" onkeyup="validateProductQuantity()" required>
+                                                            <span id="product-quantity-error"></span>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -147,7 +149,8 @@
                                                     <form>
                                                         <div class="form-group">
                                                             <label for="product-quantity-unit" class="col-form-label">Unit:</label>
-                                                            <input list="units" type="text" class="form-control" id="product-quantity-unit">
+                                                            <input list="units" type="text" class="form-control" id="product-quantity-unit" onkeyup="validateProductQuantityUnit()" required>
+                                                            <span id="product-quantity-unit-error"></span>
                                                             <datalist id="units">
                                                                 <option value="g">
                                                                 <option value="lbs">
