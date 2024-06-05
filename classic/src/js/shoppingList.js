@@ -327,6 +327,8 @@ async function saveEditingItem(id) {
     let clearList = document.getElementById("shopping-list");
     clearList.innerHTML = "";
     loadShoppingList();
+    let editFormBtn = document.getElementById("modalFormBtn");
+    editFormBtn.setAttribute("onclick", "addItemManually()");
 }
 
 
@@ -336,7 +338,7 @@ function modalBtn() {
     // modal label
     let modalLabel = document.getElementById("exampleModalLabel");
     modalLabel.innerHTML = "Add new item to the shopping list";
-    // change 'add' button to 'save'
+    // change 'save' button to 'add item'
     let editFormBtn = document.getElementById("modalFormBtn");
     editFormBtn.innerHTML = "Add item";
 }

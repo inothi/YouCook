@@ -256,6 +256,7 @@ function addToFav(el) {
 function loadFavouriteRecipes() {
     let mainFoodTable = document.getElementById("main-food-table");
     let favRecipesArray = JSON.parse(localStorage.getItem("favRecipes"));
+    let recipeCreated = new Event('recipeCreated');
     for (let i = 0; i < favRecipesArray.length; i++) {
         axios({
             url: `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${favRecipesArray[i]}`
@@ -269,7 +270,7 @@ function loadFavouriteRecipes() {
                         <img src="${randomRecipe.meals[0].strMealThumb}">
                     </a>
                     <div class="remove-from-fav">
-                        <i class="fa-solid fa-heart fa-2xl" onClick="removeFromFav(${i})" id="heart-${randomRecipe.meals[0].idMeal}"></i>
+                        <i class="fa-solid fa-heart fa-2xl" onMouseOver="heartShake('heart-${randomRecipe.meals[0].idMeal}')" onClick="removeFromFav(${i})" id="heart-${randomRecipe.meals[0].idMeal}"></i>
                     </div>
                 </div>`
             }
@@ -281,7 +282,7 @@ function loadFavouriteRecipes() {
                         <img src="${randomRecipe.meals[0].strMealThumb}">
                     </a>
                     <div class="remove-from-fav">
-                        <i class="fa-solid fa-heart fa-2xl" onClick="removeFromFav(${i})" id="heart-${randomRecipe.meals[0].idMeal}"></i>
+                        <i class="fa-solid fa-heart fa-2xl" onMouseOver="heartShake('heart-${randomRecipe.meals[0].idMeal}')" onClick="removeFromFav(${i})" id="heart-${randomRecipe.meals[0].idMeal}"></i>
                     </div>
                 </div>`
             }
@@ -305,13 +306,13 @@ function removeFromFav(el) {
 }
 
 
-// 
-document.addEventListener("DOMContentLoaded", () => {
-    let favIcon = document.querySelectorAll(".remove-from-fav");
-    favIcon.forEach((heartBtn) => {
-        heartBtn.addEventListener("mouseover", () => {
-            console.log("yeah");
-        })
+// change favourite recipes heart icon
+function heartShake(el) {
+    let heartIcon = document.getElementById(el);
+    heartIcon.classList.remove("fa-heart");
+    heartIcon.classList.add("fa-heart-crack");
+    heartIcon.addEventListener("mouseleave", () => {
+        heartIcon.classList.remove("fa-heart-crack");
+        heartIcon.classList.add("fa-heart");
     })
-    console.log(favIcon);
-})
+}
