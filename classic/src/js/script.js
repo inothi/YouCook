@@ -125,6 +125,9 @@ function addItemToShoppingList(img, ing, qty, bht, cat) {
         let quantity = qty;
         if ((quantity == null) || (quantity == "")) {
             quantity = 1;
+        } else {
+            quantity = quantity.replace(/[A-Za-z]/g, "") + " " + quantity.replace(/\d/g, "");
+            console.log(quantity);
         }
         let category = cat;
         if (category == undefined) {

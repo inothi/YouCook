@@ -26,7 +26,8 @@ const flagsUrlArray = [
     {strArea: "Thai", strAreaUrl: "th"},
     {strArea: "Tunisian", strAreaUrl: "tn"},
     {strArea: "Turkish", strAreaUrl: "tr"},
-    {strArea: "Vietnamese", strAreaUrl: "vn"}
+    {strArea: "Vietnamese", strAreaUrl: "vn"},
+    {strArea: "Unknown", strAreaUrl: "noflag"}
 ];
 
 

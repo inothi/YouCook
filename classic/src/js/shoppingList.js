@@ -136,6 +136,7 @@ function moveToEndOrTop(position) {
 
 // checking if position on the list is bought
 function checkIsBought() {
+    let removeAllBtn = document.getElementById("remove-btn");
     let ingredientRow = document.getElementById("shopping-list").children;
     for (let i = 0; i < shoppingList.length; i++) {
         if (shoppingList[i].bought == true) {
@@ -143,12 +144,18 @@ function checkIsBought() {
             ingredientRow[i].children[4].children[0].style.display = "none";
             ingredientRow[i].children[4].children[1].style.display = "none";
             ingredientRow[i].children[4].children[2].innerHTML = `<span data-shopping="Mark as unbought"><i onclick="isBought(${i})" class="fa-solid fa-rotate-left margin-both" style="color: #fff";></i></span>`;
+            removeAllBtn.classList.remove("btn-dark");
+            removeAllBtn.classList.add("btn-primary");
+            removeAllBtn.removeAttribute("disabled");
         }
         else {
             ingredientRow[i].classList.remove("bought-products");
             ingredientRow[i].children[4].children[0].style.display = "inline";
             ingredientRow[i].children[4].children[1].style.display = "inline";
             ingredientRow[i].children[4].children[2].innerHTML = `<span data-shopping="Mark as bought"><i onclick="isBought(${i})" class="fa-solid fa-circle-check margin-both"></i></span>`;
+            removeAllBtn.classList.remove("btn-primary");
+            removeAllBtn.classList.add("btn-dark");
+            removeAllBtn.setAttribute("disabled", true);
         }
     }
 }
@@ -204,7 +211,7 @@ async function addItemManually() {
             shoppingList = [];
         }
         let image = itemImg;
-        let ingredient = itemName;
+        let ingredient = itemName.charAt(0).toUpperCase() + itemName.slice(1, itemName.length);
         let quantity = itemQuantity;
         let category = itemCat;
         let bought = false;
@@ -257,13 +264,6 @@ function editItemOnShoppingList(id) {
         listItemCategory = String(listItemCategory.split(" ")[0].concat(" & ").concat(listItemCategory.split(" ")[2]));
     }
     modalItemCategory.value = listItemCategory;
-}
-
-
-// validation if modal form is correct
-function validateForm() {
-
-    console.log("Zmieniono wpis");
 }
 
 
@@ -384,7 +384,7 @@ function validateProductName() {
 
 function validateProductQuantity() {
     let productQuantity = document.getElementById("product-quantity").value;
-    if (productQuantity.length == 0) {
+    if (productQuantity <= 0) {
         productQuantityError.innerHTML = "more than 0 required";
         return false;
     }
@@ -405,4 +405,15 @@ function validateProductQuantityUnit() {
     }
     productQuantityUnitError.innerHTML = '<i class="fa-solid fa-circle-check valid"></i>'
     return true;
+}
+
+
+// remove all bought items from shopping list
+function removeBoughtItems() {
+    let shoppingList = JSON.parse(localStorage.getItem("shoppingList"));
+    let unboughtItems = shoppingList.filter((item) => item.bought == false);
+    localStorage.setItem("shoppingList", JSON.stringify(unboughtItems));
+    let clearList = document.getElementById("shopping-list");
+    clearList.innerHTML = "";
+    loadShoppingList();
 }

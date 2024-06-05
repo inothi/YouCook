@@ -114,7 +114,8 @@
                             <tbody id="shopping-list"></tbody>
                         </table>
                         <!-- add new position to shopping list (bootstrap modal) -->
-                        <button type="button" onclick="modalBtn()" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="Add" id="modal-btn"><i class="fa-solid fa-circle-plus fa-sm margin-right"></i>Add</button>
+                        <button type="button" onclick="modalBtn()" class="btn btn-primary float-left" data-toggle="modal" data-target="#exampleModal" data-whatever="Add" id="modal-btn"><i class="fa-solid fa-circle-plus fa-sm margin-right"></i>Add new item</button>
+                        <button type="button" disabled onclick="removeBoughtItems()" class="btn btn-dark float-right" data-whatever="Add" id="remove-btn"><i class="fa-solid fa-trash-can fa-sm margin-right"></i>Remove bought items</button>
                         <div class="modal fade" data-bs-theme="dark" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">

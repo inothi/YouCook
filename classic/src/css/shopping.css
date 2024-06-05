@@ -78,6 +78,11 @@ input {
     caret-color: #000;
 }
 
+.float-left,
+.float-right {
+    margin-top: 25px;
+}
+
 [data-shopping] {
     position: relative;
     z-index: 2;
@@ -136,6 +141,12 @@ input {
     [data-shopping]:hover:before,
     [data-shopping]:hover:after {
         visibility: hidden;
+    }
+
+    .float-right,
+    .float-left {
+        float:inline-end !important;
+        margin-bottom: 20px;
     }
 }
 
