@@ -227,9 +227,17 @@ async function addItemManually() {
         localStorage.setItem("shoppingList", JSON.stringify(shoppingList));
     }
     clearModalForm();
+    let modalMessage = document.getElementById("modal-form-message");
+    modalMessage.innerHTML = "<i class='fa-solid fa-circle-check fa-xl margin-right'></i>Item added successfully";
+    setTimeout(() => {
+        modalMessage.innerHTML = "";
+    }, 2000);
     let clearList = document.getElementById("shopping-list");
     clearList.innerHTML = "";
     loadShoppingList();
+    validateProductName();
+    validateProductQuantity();
+    validateProductQuantityUnit();
 }
 
 

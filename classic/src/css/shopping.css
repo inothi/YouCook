@@ -83,6 +83,15 @@ input {
     margin-top: 25px;
 }
 
+.modal-form-message {
+    transition: all .5s ease;
+    color: var(--color-green-light);
+    font-size: 18px;
+    font-weight: 700;
+    position: absolute;
+    left: 30px;
+}
+
 [data-shopping] {
     position: relative;
     z-index: 2;
