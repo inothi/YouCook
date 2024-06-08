@@ -205,6 +205,7 @@ async function addItemManually() {
     };
     let modalMessage = document.getElementById("modal-form-message");
     let editFormBtn = document.getElementById("modalFormBtn");
+    editFormBtn.removeAttribute("data-dismiss");
     if ((validateProductName(itemName) == false) || (validateProductQuantity(itemQty) == false) || (validateProductQuantityUnit(itemQtyUnit) == false)) {
         modalMessage.classList.remove("success");
         modalMessage.classList.add("error");
@@ -212,7 +213,6 @@ async function addItemManually() {
         setTimeout(() => {
             modalMessage.innerHTML = "";
             editFormBtn.setAttribute("onclick", "addItemManually()");
-            editFormBtn.removeAttribute("data-dismiss", "modal");
         }, 2000);
         return false;
     } else {
@@ -383,6 +383,7 @@ function modalBtn() {
     let editFormBtn = document.getElementById("modalFormBtn");
     editFormBtn.innerHTML = "Add item";
     editFormBtn.setAttribute("onclick", "addItemManually()");
+    editFormBtn.removeAttribute("data-dismiss");
 }
 
 
