@@ -85,11 +85,18 @@ input {
 
 .modal-form-message {
     transition: all .5s ease;
-    color: var(--color-green-light);
     font-size: 18px;
     font-weight: 700;
     position: absolute;
     left: 30px;
+}
+
+.success {
+    color: var(--color-green-light);
+}
+
+.error {
+    color: var(--color-red-light);
 }
 
 [data-shopping] {

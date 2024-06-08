@@ -203,7 +203,17 @@ async function addItemManually() {
             itemImg = `./src/assets/img/icons/other.png`;
         }
     };
+    let modalMessage = document.getElementById("modal-form-message");
+    let editFormBtn = document.getElementById("modalFormBtn");
     if ((validateProductName(itemName) == false) || (validateProductQuantity(itemQty) == false) || (validateProductQuantityUnit(itemQtyUnit) == false)) {
+        modalMessage.classList.remove("success");
+        modalMessage.classList.add("error");
+        modalMessage.innerHTML = "<i class='fa-solid fa-circle-exclamation fa-xl margin-right'></i>Please fix all errors";
+        setTimeout(() => {
+            modalMessage.innerHTML = "";
+            editFormBtn.setAttribute("onclick", "addItemManually()");
+            editFormBtn.removeAttribute("data-dismiss", "modal");
+        }, 2000);
         return false;
     } else {
         let shoppingList = JSON.parse(localStorage.getItem("shoppingList"));
@@ -225,19 +235,17 @@ async function addItemManually() {
         localStorage.setItem("item", JSON.stringify(item));
         shoppingList.unshift(item);
         localStorage.setItem("shoppingList", JSON.stringify(shoppingList));
+        modalMessage.classList.remove("error");
+        modalMessage.classList.add("success");
+        modalMessage.innerHTML = "<i class='fa-solid fa-circle-check fa-xl margin-right'></i>Item added successfully";
+        setTimeout(() => {
+            modalMessage.innerHTML = "";
+        }, 2000);
     }
     clearModalForm();
-    let modalMessage = document.getElementById("modal-form-message");
-    modalMessage.innerHTML = "<i class='fa-solid fa-circle-check fa-xl margin-right'></i>Item added successfully";
-    setTimeout(() => {
-        modalMessage.innerHTML = "";
-    }, 2000);
     let clearList = document.getElementById("shopping-list");
     clearList.innerHTML = "";
     loadShoppingList();
-    validateProductName();
-    validateProductQuantity();
-    validateProductQuantityUnit();
 }
 
 
@@ -251,12 +259,12 @@ function editItemOnShoppingList(id) {
     editFormBtn.innerHTML = "Save changes";
     // change onclick function
     editFormBtn.setAttribute("onclick", `saveEditingItem(${id})`);
-    editFormBtn.setAttribute("data-dismiss", "modal");
     // editing item name
     var modalItemName = document.getElementById("product-name");
     let shoppingListTable = document.getElementById("shopping-list");
     let listItemName = shoppingListTable.children[id].children[1].innerHTML.substring(String(shoppingListTable.children[id].children[1].innerHTML.indexOf('>') + 1, String(shoppingListTable.children[id].children[1].innerHTML.length)));
     modalItemName.value = listItemName;
+    modalItemName.setAttribute("disabled", true);
     // editing item quantity
     var modalItemQty = document.getElementById("product-quantity");
     var listItemQty = Number(shoppingListTable.children[id].children[2].innerHTML.split(" ")[0]);
@@ -272,6 +280,8 @@ function editItemOnShoppingList(id) {
         listItemCategory = String(listItemCategory.split(" ")[0].concat(" & ").concat(listItemCategory.split(" ")[2]));
     }
     modalItemCategory.value = listItemCategory;
+    validateProductQuantity();
+    validateProductQuantityUnit();
 }
 
 
@@ -283,9 +293,32 @@ async function saveEditingItem(id) {
     let editedUnit = String(document.getElementById("product-quantity-unit").value);
     let editedQuantity = String(editedQty.concat(" ", editedUnit));
     let editedCategory = String(document.getElementById("product-category").value);
+    let editFormBtn = document.getElementById("modalFormBtn");
+    editFormBtn.setAttribute("data-dismiss", "modal");
     // get shopping list from localStorage
     let shoppingList = JSON.parse(localStorage.getItem("shoppingList"));
     let getEditingItem = shoppingList[id];
+    let modalMessage = document.getElementById("modal-form-message");
+    if ((validateProductQuantity(editedQty) == false) || (validateProductQuantityUnit(editedUnit) == false)) {
+        modalMessage.classList.remove("success");
+        modalMessage.classList.add("error");
+        modalMessage.innerHTML = "<i class='fa-solid fa-circle-exclamation fa-xl margin-right'></i>Please fix all errors";
+        // editFormBtn.setAttribute("onclick", "addItemManually()");
+        editFormBtn.removeAttribute("data-dismiss", "modal");
+        setTimeout(() => {
+            modalMessage.innerHTML = "";
+        }, 2000);
+        return false;
+    } else {
+        modalMessage.classList.remove("error");
+        modalMessage.classList.add("success");
+        modalMessage.innerHTML = "<i class='fa-solid fa-circle-check fa-xl margin-right'></i>Changes saved";
+        setTimeout(() => {
+            modalMessage.innerHTML = "";
+            // editFormBtn.setAttribute("onclick", "addItemManually()");
+            editFormBtn.setAttribute("data-dismiss", "modal");
+        }, 1000);
+    };
     // check if image exist
     let itemImgStatus = await axios({
         url: `https://www.themealdb.com/images/ingredients/${editedName}.png`
@@ -327,16 +360,13 @@ async function saveEditingItem(id) {
         "quantity": editedQuantity,
         "category": editedCategory,
         "bought": getEditingItem.bought
-    }
+    };
     localStorage.setItem("editingItem", JSON.stringify(replaceItem));
     shoppingList[id] = replaceItem;
     localStorage.setItem("shoppingList", JSON.stringify(shoppingList));
     let clearList = document.getElementById("shopping-list");
     clearList.innerHTML = "";
     loadShoppingList();
-    let editFormBtn = document.getElementById("modalFormBtn");
-    editFormBtn.setAttribute("onclick", "addItemManually()");
-    editFormBtn.removeAttribute("data-dismiss", "modal");
 }
 
 
@@ -346,12 +376,13 @@ function modalBtn() {
     // modal label
     let modalLabel = document.getElementById("exampleModalLabel");
     modalLabel.innerHTML = "Add new item to the shopping list";
+    // delete disabled atribute
+    let inputProductName = document.getElementById("product-name");
+    inputProductName.removeAttribute("disabled");
     // change 'save' button to 'add item'
     let editFormBtn = document.getElementById("modalFormBtn");
     editFormBtn.innerHTML = "Add item";
-    validateProductName();
-    validateProductQuantity();
-    validateProductQuantityUnit();
+    editFormBtn.setAttribute("onclick", "addItemManually()");
 }
 
 
@@ -373,6 +404,34 @@ function clearModalForm() {
     let modalItemUnit = document.getElementById("product-quantity-unit");
     modalItemUnit.value = null;
 }
+
+
+// check modal form is correct
+let modalFormName = document.getElementById("product-name");
+modalFormName.addEventListener("focus", () => {
+    validateProductName();
+    modalFormName.addEventListener("keyup", () => {
+        validateProductName();
+    });
+});
+
+
+let modalFormQty = document.getElementById("product-quantity");
+modalFormQty.addEventListener("focus", () => {
+    validateProductQuantity();
+    modalFormName.addEventListener("keyup", () => {
+        validateProductQuantity();
+    });
+});
+
+
+let modalFormUnit = document.getElementById("product-quantity-unit");
+modalFormUnit.addEventListener("focus", () => {
+    validateProductQuantityUnit();
+    modalFormName.addEventListener("keyup", () => {
+        validateProductQuantityUnit();
+    });
+});
 
 
 function validateProductName() {
