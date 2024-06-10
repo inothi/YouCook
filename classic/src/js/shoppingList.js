@@ -407,34 +407,6 @@ function clearModalForm() {
 }
 
 
-// check modal form is correct
-let modalFormName = document.getElementById("product-name");
-modalFormName.addEventListener("focus", () => {
-    validateProductName();
-    modalFormName.addEventListener("keyup", () => {
-        validateProductName();
-    });
-});
-
-
-let modalFormQty = document.getElementById("product-quantity");
-modalFormQty.addEventListener("focus", () => {
-    validateProductQuantity();
-    modalFormName.addEventListener("keyup", () => {
-        validateProductQuantity();
-    });
-});
-
-
-let modalFormUnit = document.getElementById("product-quantity-unit");
-modalFormUnit.addEventListener("focus", () => {
-    validateProductQuantityUnit();
-    modalFormName.addEventListener("keyup", () => {
-        validateProductQuantityUnit();
-    });
-});
-
-
 function validateProductName() {
     let productName = document.getElementById("product-name").value;
     if (productName.length < 3) {

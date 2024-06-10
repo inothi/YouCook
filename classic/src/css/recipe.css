@@ -12,7 +12,7 @@
         float: left;
         transition: all .25s ease;
         width: 100%;
-        padding: 10px;
+        padding: 10px 10px 0 10px;
     }
 }
 
@@ -26,6 +26,25 @@
 .recipe-header-details {
     text-align: left;
     color: #ddd;
+}
+
+h5 {
+    color: #ddd;
+    margin: 0 0 75px 25px;
+
+    & a {
+        color: var(--color-green-light);
+
+        &:hover {
+            color: var(--color-green-light-light);
+            text-decoration: none;
+        }
+    }
+}
+
+hr {
+    background-color: #ddd;
+    margin-bottom: 25px;
 }
 
 .category-image,

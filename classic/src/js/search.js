@@ -131,10 +131,13 @@ function searchResults() {
     }).then((response) => {
         let searchResult = response.data.meals;
         for (let i = 0; i < searchResult.length; i++) {
-            mainSearchFoodTable.innerHTML += `<a class="col-lg-3 col-md-4 col-sm-6 col-12 main-food-table food-table-dark" href="./recipes_details.html?id=${searchResult[i].idMeal}">` 
-            + '<div class="food-name">' + searchResult[i].strMeal + '</div>'
-            + '<img src="' + searchResult[i].strMealThumb + '">'
-            + '</a>'
+            mainSearchFoodTable.innerHTML += `<a class="col-lg-3 col-md-4 col-sm-6 col-12 main-food-table food-table-dark" href="./recipes_details.html?id=${searchResult[i].idMeal}"> 
+            <div class="food-name">${searchResult[i].strMeal}</div>
+            <img src="${searchResult[i].strMealThumb}">
+            <div class="add-to-fav">
+                <i class="fa-regular fa-heart fa-2xl" onClick="addToFav('heart-${searchResult[i].idMeal}')" id="heart-${searchResult[i].idMeal}"></i>
+            </div>
+            </a>`
         }
         let categoryPath = document.getElementById("category-path");
         categoryPath.innerHTML = `<a href="./index.html"><i class="fa-solid fa-house fa-2xs"></i></a>`;
@@ -233,10 +236,12 @@ function loadCategoryOptions(category) {
     }).then((response) => {
         let foodCategories = response.data.categories;
         for (let i = 0; i < foodCategories.length; i++) {
-            let categoryOption = document.createElement("option");
-            categoryOption.innerHTML = foodCategories[i].strCategory;
-            categoryOption.value = foodCategories[i].strCategory;
-            categorySelect.appendChild(categoryOption);
+            if (foodCategories[i].strCategory !== category) {
+                let categoryOption = document.createElement("option");
+                categoryOption.innerHTML = foodCategories[i].strCategory;
+                categoryOption.value = foodCategories[i].strCategory;
+                categorySelect.appendChild(categoryOption);
+            }
         }
     })
 }
@@ -275,7 +280,7 @@ function categoryRecipes() {
     }).finally(function() {
         // here will be code for a loading icon;
     });
-    loadCategoryOptions();
+    loadCategoryOptions(foodCategory);
 
     // change category
     let changeCategory = document.getElementById("select-category");

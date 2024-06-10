@@ -38,8 +38,8 @@ for (let i = 52764; i <= 53083; i++) {
 }
 
 
-// check current url
-(function checkUrl() {
+// check current url automatic
+(function checkUrlAuto() {
     if (window.location.href.indexOf('search') > -1) {
         searchResults();
     }
@@ -58,11 +58,113 @@ for (let i = 52764; i <= 53083; i++) {
     }
     else if (window.location.href.indexOf('shopping_list.html') > -1 ) {
         loadShoppingList();
+        // check modal form is correct
+        let modalFormName = document.getElementById("product-name");
+        modalFormName.addEventListener("focus", () => {
+            validateProductName();
+            modalFormName.addEventListener("keyup", () => {
+                validateProductName();
+            });
+        });
+
+
+        let modalFormQty = document.getElementById("product-quantity");
+        modalFormQty.addEventListener("focus", () => {
+            validateProductQuantity();
+            modalFormName.addEventListener("keyup", () => {
+                validateProductQuantity();
+            });
+        });
+
+
+        let modalFormUnit = document.getElementById("product-quantity-unit");
+        modalFormUnit.addEventListener("focus", () => {
+            validateProductQuantityUnit();
+            modalFormName.addEventListener("keyup", () => {
+                validateProductQuantityUnit();
+            });
+        });
     }
     else if (window.location.href.indexOf('favourite_recipes.html') > -1 ) {
-        loadFavouriteRecipes();
+        let favArray = JSON.parse(localStorage.getItem("favRecipes"));
+        if (favArray == null) {
+            favArray = [];
+        }
+        localStorage.setItem("favRecipes", JSON.stringify(favArray));
+        let mainFoodTable = document.getElementById("main-food-table");
+        if (favArray.length == 0) {
+            mainFoodTable.innerHTML = `
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h5>You don't have any favourite recipes. Please check recipes from below or go to <a href="./index.html">main page</a> for more recipes.</h5><hr>
+                </div>`;
+            getRandomRecipes();
+        } else loadFavouriteRecipes();
     }
 }());
+
+
+// check current url manual
+function checkUrlManual() {
+    if (window.location.href.indexOf('search') > -1) {
+        searchResults();
+    }
+    else if (window.location.href.indexOf('area') > -1) {
+        areaRecipes();
+    }
+    else if (window.location.href.indexOf('category') > -1) {
+        categoryRecipes();
+    }
+    else if ((window.location.href.indexOf('index.html') > -1) && (window.location.href.indexOf('search')) == -1) {
+        getRandomRecipes();
+    }
+    else if (window.location.href.indexOf('recipes_details.html') > -1) {
+        let id = window.location.href.slice(window.location.href.indexOf('id=') + 3, window.location.href.indexOf('id=') + 8);
+        selectedRecipeDetails(id);
+    }
+    else if (window.location.href.indexOf('shopping_list.html') > -1 ) {
+        loadShoppingList();
+        // check modal form is correct
+        let modalFormName = document.getElementById("product-name");
+        modalFormName.addEventListener("focus", () => {
+            validateProductName();
+            modalFormName.addEventListener("keyup", () => {
+                validateProductName();
+            });
+        });
+
+
+        let modalFormQty = document.getElementById("product-quantity");
+        modalFormQty.addEventListener("focus", () => {
+            validateProductQuantity();
+            modalFormName.addEventListener("keyup", () => {
+                validateProductQuantity();
+            });
+        });
+
+
+        let modalFormUnit = document.getElementById("product-quantity-unit");
+        modalFormUnit.addEventListener("focus", () => {
+            validateProductQuantityUnit();
+            modalFormName.addEventListener("keyup", () => {
+                validateProductQuantityUnit();
+            });
+        });
+    }
+    else if (window.location.href.indexOf('favourite_recipes.html') > -1 ) {
+        let favArray = JSON.parse(localStorage.getItem("favRecipes"));
+        let mainFoodTable = document.getElementById("main-food-table");
+        if (favArray.length == 0) {
+            mainFoodTable.innerHTML = `
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h5>You don't have any favourite recipes. Please check recipes from below or go to <a href="./index.html">main page</a> for more recipes.</h5><hr>
+                </div>`;
+            getRandomRecipes();
+        } else {
+            mainFoodTable.innerHTML = "";
+            loadFavouriteRecipes();
+        }
+    }
+};
 
 
 // update category path
@@ -92,6 +194,7 @@ function selectedRecipeDetails(id) {
     axios({
         url: `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
     }).then((response) => {
+        console.log(response);
         let selectedRecipe = response.data;
         let recipe = Object.entries(selectedRecipe.meals[0]);
         let recipeIngredients = recipe.filter(([key, value]) => (key.startsWith("strIngredient") && value != null && value != ""));
@@ -115,9 +218,12 @@ function selectedRecipeDetails(id) {
             // </div>`
         }
         else {
-            selectedRecipeTitle.innerHTML += `<h3>${selectedRecipe.meals[0].strMeal}</h3>`;
-            selectedRecipeImage.innerHTML += `<img src="${selectedRecipe.meals[0].strMealThumb}">`;
-            selectedRecipeDetails.innerHTML += `
+            selectedRecipeTitle.innerHTML = `<h3>${selectedRecipe.meals[0].strMeal}</h3>`;
+            selectedRecipeImage.innerHTML = `<img src="${selectedRecipe.meals[0].strMealThumb}">
+                <div class="add-to-fav">
+                    <i class="fa-regular fa-heart fa-2xl" onClick="addToFav('heart-${selectedRecipe.meals[0].idMeal}')" id="heart-${selectedRecipe.meals[0].idMeal}"></i>
+                </div>`;
+            selectedRecipeDetails.innerHTML = `
                 <h4>Specialty of cuisine:</h4>
                 <div class="img-cat">
                     <a class="recipes-links" href="./index.html?area=${selectedRecipe.meals[0].strArea}">
@@ -137,6 +243,7 @@ function selectedRecipeDetails(id) {
                         ${selectedRecipe.meals[0].strCategory}
                     </a>
                 </div>`;
+            selectedRecipeIngredientsTable.innerHTML = "";
             for (let i = 0; i < recipeIngredients.length; i++) {
                 selectedRecipeIngredientsTable.innerHTML += `
                 <tr>
@@ -157,6 +264,7 @@ function selectedRecipeDetails(id) {
             } else {
                 selectedRecipeInstructions.style.display = "none";
             }
+            checkIsFav(`heart-${id}`);
         }
     }).catch(function(error) {
         // here will be code for a error message on main page;
@@ -184,12 +292,22 @@ function checkIsAddedToList() {
 
 // validate if recipes was added to favourite
 function checkIsFav(el) {
+    console.log(el);
     let addedItem = document.getElementById(el);
     let favouriteRecipes = JSON.parse(localStorage.getItem("favRecipes"));
     let favItem = Number(el.slice(el.indexOf("heart-") + 6, el.indexOf("heart-").length));
-    if (favouriteRecipes.includes(favItem)) {
-        addedItem.classList.remove("fa-regular");
-        addedItem.classList.add("fa-solid");
+    let id = 0;
+    for (let i = 0; i < favouriteRecipes.length; i++) {
+        if (favouriteRecipes[i].idMeal == favItem) {
+            id = i;
+            addedItem.classList.remove("fa-regular");
+            addedItem.classList.add("fa-solid");
+            addedItem.removeAttribute("onClick");
+            addedItem.setAttribute("onClick", "removeFromFav(" + id + ")");
+            addedItem.setAttribute("onMouseOver", `heartShake("heart-${favItem}")`);
+            addedItem.parentElement.classList.remove("add-to-fav");
+            addedItem.parentElement.classList.add("remove-from-fav");
+        } 
     }
 }
 
@@ -209,9 +327,6 @@ function getRandomRecipes() {
                         <div class="food-name">${randomRecipe.meals[0].strMeal}</div>
                         <img src="${randomRecipe.meals[0].strMealThumb}">
                     </a>
-                    <div class="add-to-fav">
-                        <i class="fa-regular fa-heart fa-2xl" onClick="addToFav('heart-${randomRecipe.meals[0].idMeal}')" id="heart-${randomRecipe.meals[0].idMeal}"></i>
-                    </div>
                 </div>`
             }
             else {
@@ -221,9 +336,6 @@ function getRandomRecipes() {
                         <div class="food-name">${randomRecipe.meals[0].strMeal}</div>
                         <img src="${randomRecipe.meals[0].strMealThumb}">
                     </a>
-                    <div class="add-to-fav">
-                        <i class="fa-regular fa-heart fa-2xl" onClick="addToFav('heart-${randomRecipe.meals[0].idMeal}')" id="heart-${randomRecipe.meals[0].idMeal}"></i>
-                    </div>
                 </div>`
             }
             checkIsFav(`heart-${randomRecipe.meals[0].idMeal}`);
@@ -243,13 +355,26 @@ function addToFav(el) {
         favouriteRecipes = [];
     }
     let favItem = Number(el.slice(el.indexOf("heart-") + 6, el.indexOf("heart-").length));
-    // validation if recipes exist on favourites
-    if (!(favouriteRecipes.includes(favItem))) {
-        localStorage.setItem("favItem", JSON.stringify(favItem));
-        favouriteRecipes.push(favItem);
-        localStorage.setItem("favRecipes", JSON.stringify(favouriteRecipes));
-    }
-    checkIsFav(el);
+    axios({
+        url: `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${favItem}`
+    }).then((response) => {
+        let itemData = response.data.meals[0];
+        // validation if recipes exist on favourites
+        if (!(favouriteRecipes.includes(favItem))) {
+            localStorage.setItem("favItem", JSON.stringify(itemData));
+            favouriteRecipes.push(itemData);
+            localStorage.setItem("favRecipes", JSON.stringify(favouriteRecipes));
+        };
+        if (window.location.href.indexOf('favourite_recipes.html') > -1) {
+            checkUrlManual();
+        } else {
+            checkIsFav(el);
+        }
+    }).catch(function(error) {
+        // here will be code for a error message on main page;
+    }).finally(function() {
+        // here will be code for a loading icon;
+    });
 }
 
 
@@ -257,41 +382,35 @@ function addToFav(el) {
 function loadFavouriteRecipes() {
     let mainFoodTable = document.getElementById("main-food-table");
     let favRecipesArray = JSON.parse(localStorage.getItem("favRecipes"));
-    let recipeCreated = new Event('recipeCreated');
-    for (let i = 0; i < favRecipesArray.length; i++) {
-        axios({
-            url: `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${favRecipesArray[i]}`
-        }).then((response) => {
-            let randomRecipe = response.data;
+    if (favRecipesArray == null) {
+        favRecipesArray = [];
+    } else {
+        for (let i = 0; i < favRecipesArray.length; i++) {
             if (localStorage.getItem("inputChecked") == "true") {
                 mainFoodTable.innerHTML += `
                 <div class="col-lg-3 col-md-4 col-sm-6 col-12 main-food-table food-table-light">
-                    <a href="./recipes_details.html?id=${randomRecipe.meals[0].idMeal}"> 
-                        <div class="food-name">${randomRecipe.meals[0].strMeal}</div>
-                        <img src="${randomRecipe.meals[0].strMealThumb}">
+                    <a href="./recipes_details.html?id=${favRecipesArray[i].idMeal}"> 
+                        <div class="food-name">${favRecipesArray[i].strMeal}</div>
+                        <img src="${favRecipesArray[i].strMealThumb}">
                     </a>
                     <div class="remove-from-fav">
-                        <i class="fa-solid fa-heart fa-2xl" onMouseOver="heartShake('heart-${randomRecipe.meals[0].idMeal}')" onClick="removeFromFav(${i})" id="heart-${randomRecipe.meals[0].idMeal}"></i>
+                        <i class="fa-solid fa-heart fa-2xl" onMouseOver="heartShake('heart-${favRecipesArray[i].idMeal}')" onClick="removeFromFav(${i})" id="heart-${favRecipesArray[i].idMeal}"></i>
                     </div>
                 </div>`
             }
             else {
                 mainFoodTable.innerHTML += `
                 <div class="col-lg-3 col-md-4 col-sm-6 col-12 main-food-table food-table-dark">
-                    <a href="./recipes_details.html?id=${randomRecipe.meals[0].idMeal}"> 
-                        <div class="food-name">${randomRecipe.meals[0].strMeal}</div>
-                        <img src="${randomRecipe.meals[0].strMealThumb}">
+                    <a href="./recipes_details.html?id=${favRecipesArray[i].idMeal}"> 
+                        <div class="food-name">${favRecipesArray[i].strMeal}</div>
+                        <img src="${favRecipesArray[i].strMealThumb}">
                     </a>
                     <div class="remove-from-fav">
-                        <i class="fa-solid fa-heart fa-2xl" onMouseOver="heartShake('heart-${randomRecipe.meals[0].idMeal}')" onClick="removeFromFav(${i})" id="heart-${randomRecipe.meals[0].idMeal}"></i>
+                        <i class="fa-solid fa-heart fa-2xl" onMouseOver="heartShake('heart-${favRecipesArray[i].idMeal}')" onClick="removeFromFav(${i})" id="heart-${favRecipesArray[i].idMeal}"></i>
                     </div>
                 </div>`
             }
-        }).catch(function(error) {
-            // here will be code for a error message on main page;
-        }).finally(function() {
-            // here will be code for a loading icon;
-        });
+        }
     }
 };
 
@@ -299,11 +418,18 @@ function loadFavouriteRecipes() {
 // remove favourite recipes from localStorage array
 function removeFromFav(el) {
     let favouriteRecipes = JSON.parse(localStorage.getItem("favRecipes"));
+    let itemId = favouriteRecipes[el].idMeal;
     favouriteRecipes.splice(el, 1);
     localStorage.setItem("favRecipes", JSON.stringify(favouriteRecipes));
     let clearList = document.getElementById("main-food-table");
-    clearList.innerHTML = "";
-    loadFavouriteRecipes();
+    if (window.location.href.indexOf('index.html') > -1) {
+        checkIsFav(`heart-${itemId}`);
+    } else if (window.location.href.indexOf('recipes_details.html') > -1) {
+        checkUrlManual();
+    } else {
+        clearList.innerHTML = "";
+        checkUrlManual();
+    }
 }
 
 
