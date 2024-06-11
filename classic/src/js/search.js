@@ -134,9 +134,6 @@ function searchResults() {
             mainSearchFoodTable.innerHTML += `<a class="col-lg-3 col-md-4 col-sm-6 col-12 main-food-table food-table-dark" href="./recipes_details.html?id=${searchResult[i].idMeal}"> 
             <div class="food-name">${searchResult[i].strMeal}</div>
             <img src="${searchResult[i].strMealThumb}">
-            <div class="add-to-fav">
-                <i class="fa-regular fa-heart fa-2xl" onClick="addToFav('heart-${searchResult[i].idMeal}')" id="heart-${searchResult[i].idMeal}"></i>
-            </div>
             </a>`
         }
         let categoryPath = document.getElementById("category-path");
