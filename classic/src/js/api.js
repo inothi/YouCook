@@ -252,7 +252,6 @@ function selectedRecipeDetails(id) {
                     <td class="align-middle text-center"><span data-tooltip="Add to your shopping list"><i class="fa-solid fa-circle-plus" onClick="addItemToShoppingList('https://www.themealdb.com/images/ingredients/${recipeIngredients[i]}.png', '${recipeIngredients[i]}', '${recipeMeasures[i][1]}', false)"></span></i></td>
                 </tr>`
             }
-            checkIsAddedToList();
             if ((recipeVideo != null) || (recipeVideo != "")) {
                 selectedRecipeVideo.innerHTML = `<iframe src="https://www.youtube.com/embed/${recipeVideo}" frameborder="0" allowfullscreen></iframe>`
             } else {
@@ -263,6 +262,7 @@ function selectedRecipeDetails(id) {
             } else {
                 selectedRecipeInstructions.style.display = "none";
             }
+            checkIsAddedToList();
             checkIsFav(`heart-${id}`);
         }
     }).catch(function(error) {
