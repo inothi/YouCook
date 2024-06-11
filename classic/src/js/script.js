@@ -127,7 +127,6 @@ function addItemToShoppingList(img, ing, qty, bht, cat) {
             quantity = 1;
         } else {
             quantity = quantity.replace(/[^\d]/g, "") + " " + quantity.replace(/\d/g, "");
-            console.log(quantity);
         }
         let category = cat;
         if (category == undefined) {

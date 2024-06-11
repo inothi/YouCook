@@ -194,7 +194,6 @@ function selectedRecipeDetails(id) {
     axios({
         url: `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
     }).then((response) => {
-        console.log(response);
         let selectedRecipe = response.data;
         let recipe = Object.entries(selectedRecipe.meals[0]);
         let recipeIngredients = recipe.filter(([key, value]) => (key.startsWith("strIngredient") && value != null && value != ""));
@@ -292,7 +291,6 @@ function checkIsAddedToList() {
 
 // validate if recipes was added to favourite
 function checkIsFav(el) {
-    console.log(el);
     let addedItem = document.getElementById(el);
     let favouriteRecipes = JSON.parse(localStorage.getItem("favRecipes"));
     let favItem = Number(el.slice(el.indexOf("heart-") + 6, el.indexOf("heart-").length));
