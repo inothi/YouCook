@@ -28,12 +28,13 @@
     color: #ddd;
 }
 
-h5 {
-    color: #ddd;
+.fav-info {
+    color: #ddd !important;
     margin: 0 0 75px 25px;
+    font-size: 20px;
 
     & a {
-        color: var(--color-green-light);
+        color: var(--color-red-light-light);
 
         &:hover {
             color: var(--color-green-light-light);

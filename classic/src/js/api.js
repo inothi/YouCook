@@ -95,7 +95,8 @@ for (let i = 52764; i <= 53083; i++) {
         if (favArray.length == 0) {
             mainFoodTable.innerHTML = `
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h5>You don't have any favourite recipes. Please check recipes from below or go to <a href="./index.html">main page</a> for more recipes.</h5><hr>
+                    <span class="fav-info">You don't have any favourite recipes. Please check recipes from below or go to <a href="./index.html" aria-label="Go to the main page">main page</a> for more recipes.</span>
+                    <br /><br /><hr>
                 </div>`;
             getRandomRecipes();
         } else loadFavouriteRecipes();
@@ -156,7 +157,8 @@ function checkUrlManual() {
         if (favArray.length == 0) {
             mainFoodTable.innerHTML = `
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h5>You don't have any favourite recipes. Please check recipes from below or go to <a href="./index.html">main page</a> for more recipes.</h5><hr>
+                    <span class="fav-info">You don't have any favourite recipes. Please check recipes from below or go to <a href="./index.html" aria-label="Go to the main page">main page</a> for more recipes.</span>
+                    <br /><br /><hr>
                 </div>`;
             getRandomRecipes();
         } else {
@@ -174,7 +176,7 @@ function updateCategoryPath(id) {
     }).then((response) => {
         let recipes = response.data;
         let categoryPath = document.getElementById("category-path");
-        categoryPath.innerHTML = `<a href="./index.html"><i class="fa-solid fa-house fa-2xs"></i></a>`;
+        categoryPath.innerHTML = `<a href="./index.html" aria-label="Go to the main page"><i class="fa-solid fa-house fa-2xs"></i></a>`;
         categoryPath.innerHTML += `
             <span><a href="./index.html">All recipes</a></span>
             <span><a href="./index.html?category=${recipes.meals[0].strCategory}">${recipes.meals[0].strCategory}</a></span>
@@ -218,7 +220,7 @@ function selectedRecipeDetails(id) {
         }
         else {
             selectedRecipeTitle.innerHTML = `<h3>${selectedRecipe.meals[0].strMeal}</h3>`;
-            selectedRecipeImage.innerHTML = `<img src="${selectedRecipe.meals[0].strMealThumb}">
+            selectedRecipeImage.innerHTML = `<img alt="Ready food picture" src="${selectedRecipe.meals[0].strMealThumb}">
                 <div class="add-to-fav">
                     <i class="fa-regular fa-heart fa-2xl" onClick="addToFav('heart-${selectedRecipe.meals[0].idMeal}')" id="heart-${selectedRecipe.meals[0].idMeal}"></i>
                 </div>`;
@@ -228,6 +230,7 @@ function selectedRecipeDetails(id) {
                     <a class="recipes-links" href="./index.html?area=${selectedRecipe.meals[0].strArea}">
                         <img 
                             class="country-image" 
+                            alt="Country flag"
                             src="https://www.themealdb.com/images/icons/flags/big/64/${flags[0].strAreaUrl}.png">
                         ${selectedRecipe.meals[0].strArea}
                     </a>
@@ -238,6 +241,7 @@ function selectedRecipeDetails(id) {
                     <a class="recipes-links" href="./index.html?category=${selectedRecipe.meals[0].strCategory}">
                         <img 
                             class="category-image" 
+                            alt="Food category image" 
                             src="https://www.themealdb.com/images/category/${selectedRecipe.meals[0].strCategory}.png">
                         ${selectedRecipe.meals[0].strCategory}
                     </a>
@@ -247,13 +251,13 @@ function selectedRecipeDetails(id) {
                 selectedRecipeIngredientsTable.innerHTML += `
                 <tr>
                     <th class="align-middle" scope="row">${i + 1}</th>
-                    <td class="align-middle"><img class="recipe-ingredients-image" src="https://www.themealdb.com/images/ingredients/${recipeIngredients[i]}.png">${recipeIngredients[i]}</td>
+                    <td class="align-middle"><img alt="Ingredient image" class="recipe-ingredients-image" src="https://www.themealdb.com/images/ingredients/${recipeIngredients[i]}.png">${recipeIngredients[i]}</td>
                     <td class="align-middle">${recipeMeasures[i][1]}</td>
                     <td class="align-middle text-center"><span data-tooltip="Add to your shopping list"><i class="fa-solid fa-circle-plus" onClick="addItemToShoppingList('https://www.themealdb.com/images/ingredients/${recipeIngredients[i]}.png', '${recipeIngredients[i]}', '${recipeMeasures[i][1]}', false)"></span></i></td>
                 </tr>`
             }
             if ((recipeVideo != null) || (recipeVideo != "")) {
-                selectedRecipeVideo.innerHTML = `<iframe src="https://www.youtube.com/embed/${recipeVideo}" frameborder="0" allowfullscreen></iframe>`
+                selectedRecipeVideo.innerHTML = `<iframe src="https://www.youtube.com/embed/${recipeVideo}" title="Cooking video instruction" frameborder="0" allowfullscreen></iframe>`
             } else {
                 selectedRecipeVideo.style.display = "none";
             }
@@ -321,18 +325,18 @@ function getRandomRecipes() {
             if (localStorage.getItem("inputChecked") == "true") {
                 mainFoodTable.innerHTML += `
                 <div class="col-lg-3 col-md-4 col-sm-6 col-12 main-food-table food-table-light">
-                    <a href="./recipes_details.html?id=${randomRecipe.meals[0].idMeal}"> 
+                    <a href="./recipes_details.html?id=${randomRecipe.meals[0].idMeal}" aria-label="Check how to cook this meal"> 
                         <div class="food-name">${randomRecipe.meals[0].strMeal}</div>
-                        <img src="${randomRecipe.meals[0].strMealThumb}">
+                        <img alt="Picture of a ready meal" src="${randomRecipe.meals[0].strMealThumb}">
                     </a>
                 </div>`
             }
             else {
                 mainFoodTable.innerHTML += `
                 <div class="col-lg-3 col-md-4 col-sm-6 col-12 main-food-table food-table-dark">
-                    <a href="./recipes_details.html?id=${randomRecipe.meals[0].idMeal}"> 
+                    <a href="./recipes_details.html?id=${randomRecipe.meals[0].idMeal}" aria-label="Check how to cook this meal"> 
                         <div class="food-name">${randomRecipe.meals[0].strMeal}</div>
-                        <img src="${randomRecipe.meals[0].strMealThumb}">
+                        <img alt="Picture of a ready meal" src="${randomRecipe.meals[0].strMealThumb}">
                     </a>
                 </div>`
             }

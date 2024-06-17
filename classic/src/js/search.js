@@ -69,13 +69,13 @@ function addSelectToMainPage() {
     mainPageSelect.innerHTML = `
         <div class="wrapper">
             <h3>Browse by country</h3>
-            <select class="select-area" id="select-area">
+            <select class="select-area" id="select-area" aria-label="Select country">
                 <option value="" disabled selected>Select country</option>
             </select>
         </div>
         <div class="wrapper">
             <h3>Browse by category</h3>
-            <select class="select-category" id="select-category">
+            <select class="select-category" id="select-category" aria-label="Select food category">
                 <option value="" disabled selected>Select category</option>
             </select>
         </div>`;
@@ -190,7 +190,7 @@ function areaRecipes() {
         <h3>
             <img src="https://www.themealdb.com/images/icons/flags/big/64/${flag[0].strAreaUrl}.png"> ${foodArea} cuisine
         </h3>
-        <select class="select-area" id="select-area">
+        <select class="select-area" id="select-area" aria-label="Change country">
             <option value="" disabled selected>Change country</option>
         </select>`;
     mainAreaFoodTable.innerHTML = "";
@@ -253,7 +253,7 @@ function categoryRecipes() {
         <h3>
             <img class="category-image-header" src="https://www.themealdb.com/images/category/${foodCategory}.png"> ${foodCategory} category
         </h3>
-        <select class="select-category" id="select-category">
+        <select class="select-category" id="select-category" aria-label="Change food category">
             <option value="" disabled selected>Change category</option>
         </select>`;
     mainCategoryFoodTable.innerHTML = "";

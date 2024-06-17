@@ -51,14 +51,26 @@
     &:hover {
         background-color: var(--color-red);
     }
+    &:focus,
+    &:active,
+    &:visited {
+        box-shadow: none;
+    }
 }
 
 .btn-primary {
     background-color: var(--color-green);
+    font-weight: 700;
+    color: #000;
     border: none;
     box-shadow: 1px 1px 2px #000;
     &:hover {
         background-color: var(--color-green-dark);
+    }
+    &:focus,
+    &:active,
+    &:visited {
+        box-shadow: none;
     }
 }
 

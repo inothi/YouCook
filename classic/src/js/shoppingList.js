@@ -8,7 +8,7 @@ function loadShoppingList() {
             shoppingListTable.innerHTML += `
             <tr>
                 <th class="align-middle" scope="row">${i + 1}</th>
-                <td class="align-middle"><img class="recipe-ingredients-image" src="${shoppingList[i].image}">${shoppingList[i].ingredient}</td>
+                <td class="align-middle"><img alt="Ingredient image" class="recipe-ingredients-image" src="${shoppingList[i].image}">${shoppingList[i].ingredient}</td>
                 <td class="align-middle">${shoppingList[i].quantity}</td>
                 <td class="align-middle">${shoppingList[i].category}</td>
                 <td class="align-middle text-center">
@@ -21,7 +21,7 @@ function loadShoppingList() {
             shoppingListTable.innerHTML += `
             <tr>
                 <th class="align-middle" scope="row">${i + 1}</th>
-                <td class="align-middle"><img class="recipe-ingredients-image" src="${shoppingList[i].image}">${shoppingList[i].ingredient}</td>
+                <td class="align-middle"><img alt="Ingredient image" class="recipe-ingredients-image" src="${shoppingList[i].image}">${shoppingList[i].ingredient}</td>
                 <td class="align-middle">${shoppingList[i].quantity}</td>
                 <td class="align-middle">${shoppingList[i].category}</td>
                 <td class="align-middle text-center">
